@@ -1,0 +1,105 @@
+@model VistaWaysTechRecruitPortal.Models.Job
+
+@{
+    ViewData["Title"] = "Job Details";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+    var hasApplied = ViewBag.HasApplied as bool? ?? false;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Job Details</h2>
+    <a asp-action="Index" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Jobs
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h3>@Model.JobTitle</h3>
+                <p class="text-muted mb-0">@Model.Department</p>
+            </div>
+            <div class="col-md-4 text-end">
+                @if (hasApplied)
+                {
+                    <span class="badge bg-success fs-6">Applied</span>
+                }
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-map-marker-alt me-2"></i>Location:</strong>
+                    <span class="ms-2">@Model.Location</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-briefcase me-2"></i>Employment Type:</strong>
+                    <span class="ms-2">@Model.EmploymentType</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-graduation-cap me-2"></i>Qualification Required:</strong>
+                    <span class="ms-2">@Model.Qualification</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-clock me-2"></i>Experience Required:</strong>
+                    <span class="ms-2">@Model.Experience</span>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Salary.HasValue)
+        {
+            <div class="mb-3">
+                <strong><i class="fas fa-rupee-sign me-2"></i>Salary Range:</strong>
+                <span class="ms-2">₹@Model.Salary.Value.ToString("N0") per annum</span>
+            </div>
+        }
+
+        <hr class="my-4">
+
+        <div class="mb-4">
+            <h5>Job Description</h5>
+            <p class="text-muted">@Model.Description</p>
+        </div>
+
+        <div class="mb-4">
+            <small class="text-muted">
+                <i class="fas fa-calendar me-2"></i>Posted on: @Model.PostedDate.ToString("MMMM dd, yyyy")
+            </small>
+        </div>
+
+        <hr class="my-4">
+
+        @if (!hasApplied)
+        {
+            <form asp-action="Apply" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-paper-plane me-2"></i>Apply for this Position
+                </button>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>You have already applied for this position.
+            </div>
+        }
+
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Jobs List
+        </a>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+﻿@model IEnumerable<VistaWaysTechRecruitPortal.Models.Job>
+
+@{
+    ViewData["Title"] = "Available Jobs";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+    var appliedJobIds = ViewBag.AppliedJobIds as List<int> ?? new List<int>();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Available Jobs</h2>
+    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+    </a>
+</div>
+
+<!-- Search and Filter -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search jobs..." value="@ViewBag.SearchTerm" />
+            </div>
+            <div class="col-md-3">
+                <select name="department" class="form-select">
+                    <option value="">All Departments</option>
+                    <option value="Engineering" selected="@(ViewBag.Department == "Engineering")">Engineering</option>
+                    <option value="IT" selected="@(ViewBag.Department == "IT")">IT</option>
+                    <option value="Marketing" selected="@(ViewBag.Department == "Marketing")">Marketing</option>
+                    <option value="Sales" selected="@(ViewBag.Department == "Sales")">Sales</option>
+                    <option value="Operations" selected="@(ViewBag.Department == "Operations")">Operations</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="location" class="form-select">
+                    <option value="">All Locations</option>
+                    <option value="Hyderabad" selected="@(ViewBag.Location == "Hyderabad")">Hyderabad</option>
+                    <option value="Bangalore" selected="@(ViewBag.Location == "Bangalore")">Bangalore</option>
+                    <option value="Chennai" selected="@(ViewBag.Location == "Chennai")">Chennai</option>
+                    <option value="Mumbai" selected="@(ViewBag.Location == "Mumbai")">Mumbai</option>
+                    <option value="Remote" selected="@(ViewBag.Location == "Remote")">Remote</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search me-2"></i>Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var job in Model)
+        {
+            bool hasApplied = appliedJobIds.Contains(job.Id);
+
+            <div class="col-md-6 mb-4">
+                <div class="card shadow h-100 @(hasApplied ? "border-success" : "")">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="card-title mb-1">@job.JobTitle</h5>
+                                <p class="text-muted mb-0">@job.Department</p>
+                            </div>
+                            @if (hasApplied)
+                            {
+                                <span class="badge bg-success">Applied</span>
+                            }
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i>@job.Location
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-briefcase me-1"></i>@job.EmploymentType
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-graduation-cap me-1"></i>@job.Qualification
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>@job.Experience
+                                </small>
+                            </div>
+                        </div>
+
+                        @if (job.Salary.HasValue)
+                        {
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-rupee-sign me-1"></i>@job.Salary.Value.ToString("N0") per annum
+                                </small>
+                            </div>
+                        }
+
+                        <p class="card-text text-muted small">
+                            @(job.Description.Length > 150 ? job.Description.Substring(0, 150) + "..." : job.Description)
+                        </p>
+
+                        <div class="d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@job.Id" class="btn btn-outline-primary flex-grow-1">
+                                <i class="fas fa-eye me-2"></i>View Details
+                            </a>
+                            @if (!hasApplied)
+                            {
+                                <form asp-action="Apply" asp-route-id="@job.Id" method="post" class="flex-grow-1">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-paper-plane me-2"></i>Apply Now
+                                    </button>
+                                </form>
+                            }
+                        </div>
+
+                        <small class="text-muted mt-2 d-block">
+                            Posted: @job.PostedDate.ToString("MMMM dd, yyyy")
+                        </small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>No jobs found matching your criteria. Try adjusting your search or filters.
+    </div>
+}

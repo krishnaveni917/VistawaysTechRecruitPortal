@@ -1,0 +1,30 @@
+@model VistaWaysTechRecruitPortal.Models.AssessmentInvitation
+
+@{
+    ViewData["Title"] = "Send Assessment Invitation";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning">
+        <h4>Send Assessment Invitation</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="CreateInvitation" method="post">
+            <div class="mb-3">
+                <label asp-for="CandidateId" class="form-label">Candidate</label>
+                <select asp-for="CandidateId" class="form-select" asp-items="@(new SelectList(ViewBag.Candidates, "Id", "FirstName"))" required>
+                    <option value="">Select Candidate</option>
+                </select>
+                <span asp-validation-for="CandidateId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expiry Date</label>
+                <input type="date" class="form-control" value="@DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")" disabled />
+                <small class="text-muted">Invitations expire in 7 days by default</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Invitation</button>
+            <a asp-action="Invitations" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

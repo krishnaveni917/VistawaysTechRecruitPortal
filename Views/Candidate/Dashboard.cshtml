@@ -1,0 +1,187 @@
+﻿@model VistaWaysTechRecruitPortal.Models.Candidate
+
+@{
+    ViewData["Title"] = "Candidate Dashboard";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>Welcome, @Model.FirstName @Model.LastName</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <h5>Candidate Details</h5>
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Candidate ID</th>
+                            <td>@Model.CandidateId</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td>@Model.Email</td>
+                        </tr>
+
+                        <tr>
+                            <th>Mobile</th>
+                            <td>@Model.MobileNumber</td>
+                        </tr>
+
+                        <tr>
+                            <th>Qualification</th>
+                            <td>@Model.Qualification</td>
+                        </tr>
+
+                        <tr>
+                            <th>Specialization</th>
+                            <td>@Model.Specialization</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h5>Recruitment Status</h5>
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Email Verification</th>
+                            <td>
+                                @(Model.EmailVerified ? "✔ Verified" : "❌ Pending")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Profile Status</th>
+                            <td>
+                                @(Model.ProfileReviewed ? "Reviewed" : "Under Review")
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Recruitment Stage</th>
+                            <td>
+                                <span class="badge bg-info text-dark">@Model.RecruitmentStatus</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Resume</th>
+                            <td>
+                                @if (!string.IsNullOrEmpty(Model.ResumePath))
+                                {
+                                    <a href="@Model.ResumePath" target="_blank">View Resume</a>
+                                }
+                                else
+                                {
+                                    <span>Not Uploaded</span>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Assessment</th>
+                            <td>@Model.RecruitmentStatus</td>
+                        </tr>
+
+                            <tr>
+
+                                <th>Interview</th>
+
+                                <td>
+
+                                    @if (ViewBag.Interview != null)
+                                    {
+                                        <span class="text-success">
+
+                                            @ViewBag.Interview.InterviewDate.ToShortDateString()
+
+                                            (@ViewBag.Interview.Status)
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>Not Scheduled</span>
+                                    }
+
+                                </td>
+
+                            </tr>
+                            @* </tr> *@
+
+                        <tr>
+                            <th>Offer Letter</th>
+                            <td>@(ViewBag.Offer != null ? ViewBag.Offer.OfferStatus : "Not Generated")</td>
+                        </tr>
+                          @if (ViewBag.Offer != null)
+                          {
+                             <div class="card mt-4">
+                                <div class="card-header bg-success text-white">
+                                   Offer Letter
+                                </div>
+
+                               <div class="card-body">
+
+                                   <h5>@ViewBag.Offer.Designation</h5>
+
+                                   <p>Department : @ViewBag.Offer.Department</p>
+
+                                   <p>Joining : @ViewBag.Offer.JoiningDate.ToShortDateString()</p>
+
+                                   <p>Status : @ViewBag.Offer.OfferStatus</p>
+
+                                   @if (ViewBag.Offer.OfferStatus == "Pending")
+                                   {
+                                       <a asp-controller="Offer"
+                                          asp-action="AcceptOffer"
+                                          asp-route-id="@ViewBag.Offer.Id"
+                                          class="btn btn-success">
+
+                                           Accept
+
+                                       </a>
+
+                                       <a asp-controller="Offer"
+                                          asp-action="RejectOffer"
+                                          asp-route-id="@ViewBag.Offer.Id"
+                                          class="btn btn-danger">
+
+                                           Reject
+
+                                       </a>
+                                   }
+                                  
+                             </div>
+
+
+                         </div>
+                  
+              
+                        }
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

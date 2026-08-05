@@ -1,0 +1,89 @@
+﻿@model IEnumerable<VistaWaysTechRecruitPortal.Models.Job>
+
+@{
+    ViewData["Title"] = "Jobs";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+
+        <h4>Jobs</h4>
+
+        <a href="/Admin/Jobs/Create"
+           class="btn btn-primary">
+
+            Add Job
+
+        </a>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>Title</th>
+
+                    <th>Department</th>
+
+                    <th>Location</th>
+
+                    <th>Experience</th>
+
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.JobTitle</td>
+
+                        <td>@item.Department</td>
+
+                        <td>@item.Location</td>
+
+                        <td>@item.Experience</td>
+
+                        <td>
+
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Closed</span>
+                            }
+
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">View</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                            <a asp-action="ToggleStatus" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">
+                                @(item.IsActive ? "Close" : "Open")
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

@@ -1,0 +1,65 @@
+﻿@model VistaWaysTechRecruitPortal.Models.Interview
+
+<h2>Interview Feedback</h2>
+
+<form asp-action="Edit" method="post">
+
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="CandidateId" type="hidden" />
+
+    <div class="mb-3">
+        <label>Status</label>
+
+        <select asp-for="Status" class="form-control">
+            <option>Scheduled</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Feedback</label>
+
+        <textarea asp-for="Feedback"
+                  class="form-control"
+                  rows="5">
+        </textarea>
+    </div>
+
+    <div class="mb-3">
+        <label>Rating</label>
+
+        <select asp-for="Rating"
+                class="form-control">
+
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+
+        </select>
+    </div>
+
+    <div class="form-check">
+
+        <input asp-for="IsSelected"
+               class="form-check-input" />
+
+        <label class="form-check-label">
+
+            Candidate Selected
+
+        </label>
+
+    </div>
+
+    <br />
+
+    <button class="btn btn-success">
+
+        Save Feedback
+
+    </button>
+
+</form>

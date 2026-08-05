@@ -1,0 +1,51 @@
+@using VistaWaysTechRecruitPortal.ViewModels
+@model EmailRegistrationViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="form-page registration-email-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Candidate Registration</p>
+            <h1>Start Your Application</h1>
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="form-card email-card">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-action="RegisterEmailOtp" method="post">
+            <div class="email-instructions">
+                <p>Enter your email address to begin the registration process. We'll send you a 6-digit OTP to verify your email.</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="form-label">Email address</label>
+                <input asp-for="Email" class="form-control" placeholder="your.email@example.com" autofocus />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-lg">Send OTP</button>
+            </div>
+
+            <div class="login-link">
+                <p>Already have an account?</p>
+                <a asp-area="Candidate" asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary">Login</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

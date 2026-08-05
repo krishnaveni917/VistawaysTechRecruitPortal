@@ -1,0 +1,105 @@
+@model List<VistaWaysTechRecruitPortal.ViewModels.TakeAssessmentViewModel>
+@{
+    ViewData["Title"] = "Take Assessment";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="position: sticky; top: 0; z-index: 1030;">
+        <h4 class="mb-0"><i class="fas fa-pen me-2"></i>Assessment</h4>
+        <span class="badge bg-light text-dark fs-6">Time Remaining: <span id="timer">--:--</span></span>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            You can attempt this assessment only once. <strong>Do not switch tabs, minimize this window, or navigate away</strong> -
+            doing so will immediately end your session and log you out.
+        </div>
+
+        <form asp-action="Submit" method="post" id="assessmentForm">
+            <input type="hidden" name="invitationId" value="@ViewBag.InvitationId" />
+            <input type="hidden" name="terminatedForViolation" id="terminatedForViolation" value="false" />
+            <input type="hidden" name="violationReason" id="violationReason" value="" />
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="mb-4 p-3 border rounded">
+                    <input type="hidden" asp-for="@Model[i].QuestionId" />
+                    <h6>Q@(i + 1). @Model[i].Question</h6>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="@Model[i].SelectedAnswer" id="q@(i)_A" value="A" />
+                        <label class="form-check-label" for="q@(i)_A">A. @Model[i].OptionA</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="@Model[i].SelectedAnswer" id="q@(i)_B" value="B" />
+                        <label class="form-check-label" for="q@(i)_B">B. @Model[i].OptionB</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="@Model[i].SelectedAnswer" id="q@(i)_C" value="C" />
+                        <label class="form-check-label" for="q@(i)_C">C. @Model[i].OptionC</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="@Model[i].SelectedAnswer" id="q@(i)_D" value="D" />
+                        <label class="form-check-label" for="q@(i)_D">D. @Model[i].OptionD</label>
+                    </div>
+                </div>
+            }
+
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="fas fa-check-circle me-2"></i>Submit Assessment
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Server-authoritative remaining time - refreshing the page does not reset the clock.
+        let time = @ViewBag.RemainingSeconds;
+        let violationTriggered = false;
+        const form = document.getElementById('assessmentForm');
+
+        function renderTimer() {
+            const minutes = Math.floor(Math.max(time, 0) / 60);
+            const seconds = Math.max(time, 0) % 60;
+            document.getElementById('timer').innerHTML = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }
+        renderTimer();
+
+        const timerInterval = setInterval(function () {
+            time--;
+            renderTimer();
+            if (time <= 0) {
+                clearInterval(timerInterval);
+                form.submit();
+            }
+        }, 1000);
+
+        function terminateForViolation(reason) {
+            if (violationTriggered) return;
+            violationTriggered = true;
+            clearInterval(timerInterval);
+            document.getElementById('terminatedForViolation').value = 'true';
+            document.getElementById('violationReason').value = reason;
+            form.submit();
+        }
+
+        // Tab switch or window minimized.
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                terminateForViolation('Candidate switched tabs or minimized the window.');
+            }
+        });
+
+        // Navigated to another window/app.
+        window.addEventListener('blur', function () {
+            if (violationTriggered) return;
+            setTimeout(function () {
+                if (!document.hasFocus() && !violationTriggered) {
+                    terminateForViolation('Candidate navigated away from the assessment window.');
+                }
+            }, 250);
+        });
+    </script>
+}

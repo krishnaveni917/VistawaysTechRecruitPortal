@@ -1,0 +1,42 @@
+@using VistaWaysTechRecruitPortal.ViewModels
+@model EmailRegistrationViewModel
+
+@{
+    ViewData["Title"] = "Verify Email";
+}
+
+<section class="auth-shell">
+    <div class="auth-panel">
+        <div class="brand-mark">
+            <img src="~/images/logo.PNG" alt="VistaWays Tech" />
+        </div>
+        <h1>Start Candidate Registration</h1>
+        <p class="auth-copy">Enter your email address. VistaWays Tech will send a secure verification link before you create your profile.</p>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-action="RegisterEmail" method="post">
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email address</label>
+                <input asp-for="Email" class="form-control form-control-lg" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">Send Verification Link</button>
+        </form>
+
+        <div class="auth-links">
+            <a asp-action="Login">Already verified? Login</a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

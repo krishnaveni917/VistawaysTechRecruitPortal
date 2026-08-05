@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Assessment Ended";
+}
+
+<div class="container mt-5">
+
+    <div class="alert alert-danger text-center">
+
+        <h2>Assessment Ended</h2>
+
+        <p>
+            Your assessment session was ended before completion.
+        </p>
+
+        @if (ViewBag.Reason != null)
+        {
+            <p><strong>Reason:</strong> @ViewBag.Reason</p>
+        }
+
+        <p>
+            This assessment cannot be retaken. If you believe this happened in error,
+            please contact <a href="mailto:hr@vistawaystech.com">hr@vistawaystech.com</a>.
+        </p>
+
+        <a asp-controller="Candidate"
+           asp-action="Dashboard"
+           class="btn btn-primary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</div>

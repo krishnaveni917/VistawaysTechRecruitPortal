@@ -1,0 +1,66 @@
+﻿@using VistaWaysRecruitmentPortal.ViewModels
+@model LoginViewModel
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5">
+
+            <div class="card shadow">
+
+                <div class="card-header text-center">
+                    <h3>Candidate Login</h3>
+                </div>
+
+                <div class="card-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <form asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+
+                        <div class="mb-3">
+                            <label asp-for="CandidateId">Candidate ID</label>
+                            <input asp-for="CandidateId"
+                                   class="form-control" />
+                            <span asp-validation-for="CandidateId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password">Password</label>
+                            <input asp-for="Password"
+                                   class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-success w-100">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <div class="auth-links">
+                        <a asp-controller="Otp" asp-action="ForgotPasswordOtp">Forgot password?</a>
+                        <a asp-action="AdminLogin">Admin login</a>
+                    </div>
+                    
+                    <div class="register-link mt-3 text-center">
+                        <p>Don't have an account?</p>
+                        <a asp-controller="Otp" asp-action="RegisterEmailOtp" class="btn btn-primary">Register as Candidate</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

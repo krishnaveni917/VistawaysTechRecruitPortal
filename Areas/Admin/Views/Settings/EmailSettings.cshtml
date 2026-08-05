@@ -1,0 +1,43 @@
+@model VistaWaysTechRecruitPortal.Models.EmailSettings
+
+@{
+    ViewData["Title"] = "Email Settings";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4>Email Settings</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="EmailSettings" method="post">
+            <div class="mb-3">
+                <label asp-for="Mail" class="form-label">Email Address</label>
+                <input asp-for="Mail" class="form-control" type="email" required />
+                <span asp-validation-for="Mail" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DisplayName" class="form-label">Display Name</label>
+                <input asp-for="DisplayName" class="form-control" required />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Password / App Password</label>
+                <input asp-for="Password" class="form-control" type="password" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Host" class="form-label">SMTP Host</label>
+                <input asp-for="Host" class="form-control" placeholder="smtp.gmail.com" required />
+                <span asp-validation-for="Host" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Port" class="form-label">SMTP Port</label>
+                <input asp-for="Port" class="form-control" type="number" placeholder="587" required />
+                <span asp-validation-for="Port" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+@model VistaWaysTechRecruitPortal.Models.Application
+
+@{
+    ViewData["Title"] = "Withdraw Application";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Withdraw Application</h2>
+    <a asp-action="Index" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Applications
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <strong>Warning:</strong> Are you sure you want to withdraw your application? This action cannot be undone.
+        </div>
+
+        <div class="mb-4">
+            <h5>@Model.Job?.JobTitle</h5>
+            <p class="text-muted mb-0">@Model.Job?.Department - @Model.Job?.Location</p>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Employment Type:</strong> @Model.Job?.EmploymentType
+            </div>
+            <div class="col-md-6">
+                <strong>Experience Required:</strong> @Model.Job?.Experience
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <strong>Applied Date:</strong> @Model.AppliedDate.ToString("MMMM dd, yyyy")
+        </div>
+
+        <div class="mb-3">
+            <strong>Current Status:</strong>
+            <span class="badge bg-warning">@Model.Status</span>
+        </div>
+
+        <hr class="my-4">
+
+        <form method="post" asp-action="WithdrawConfirmed">
+            <input type="hidden" asp-for="Id" />
+            
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-times me-2"></i>Confirm Withdrawal
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Cancel
+            </a>
+        </form>
+    </div>
+</div>

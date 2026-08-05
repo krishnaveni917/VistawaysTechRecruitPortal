@@ -1,0 +1,478 @@
+@using VistaWaysTechRecruitPortal.ViewModels
+@using VistaWaysTechRecruitPortal.Data
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Candidate Registration";
+    int currentYear = DateTime.Now.Year;
+    int startYear = currentYear - 45;
+}
+
+<section class="form-page registration-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Verified Candidate Registration</p>
+            <h1>Complete Your VistaWays Tech Profile</h1>
+        </div>
+        <span class="status-pill">Email verified</span>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="form-card registration-card">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-action="Register" method="post" enctype="multipart/form-data">
+            <input asp-for="VerificationToken" class="form-control" readonly />
+
+            <section class="form-section">
+                <div class="form-section__heading">
+                    <span>01</span>
+                    <div>
+                        <h2>Account Details</h2>
+                        <p>Your candidate ID and login will be created from these details.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="FirstName" class="form-label">First name</label>
+                        <input asp-for="FirstName" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="LastName" class="form-label">Last name</label>
+                        <input asp-for="LastName" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label">Verified email</label>
+                        <input asp-for="Email" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MobileNumber" class="form-label">Mobile number</label>
+                        <input asp-for="MobileNumber" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm password</label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="QualificationType" class="form-label">Highest Qualification</label>
+                        <select asp-for="QualificationType" class="form-select" id="qualificationType">
+                            <option value="">Select qualification</option>
+                            <option value="UG">Undergraduate (UG)</option>
+                            <option value="PG">Postgraduate (PG)</option>
+                            <option value="Both">Both UG & PG</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section" id="ugSection">
+                <div class="form-section__heading">
+                    <span>02</span>
+                    <div>
+                        <h2>Undergraduate Details</h2>
+                        <p>Primary qualification used for profile review and shortlisting.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <label asp-for="UndergraduateUniversity" class="form-label"></label>
+                        <select asp-for="UndergraduateUniversity" class="form-select institution-select" data-location-target="UndergraduateLocation">
+                            <option value="">Select university</option>
+                            @foreach (var university in InstitutionData.Universities.OrderBy(u => u.Key))
+                            {
+                                <option value="@university.Key">@university.Key</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label asp-for="UndergraduateLocation" class="form-label">University location</label>
+                        <input asp-for="UndergraduateLocation" class="form-control location-field" placeholder="Auto-filled after selection" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UndergraduateDegree" class="form-label"></label>
+                        <select asp-for="UndergraduateDegree" class="form-select">
+                            <option value="">Select degree</option>
+                            @foreach (var degree in InstitutionData.Degrees)
+                            {
+                                <option value="@degree">@degree</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UndergraduateSpecialization" class="form-label"></label>
+                        <select asp-for="UndergraduateSpecialization" class="form-select">
+                            <option value="">Select specialization</option>
+                            @foreach (var spec in InstitutionData.Specializations)
+                            {
+                                <option value="@spec">@spec</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UndergraduatePassingYear" class="form-label"></label>
+                        <select asp-for="UndergraduatePassingYear" class="form-select">
+                            <option value="">Select year</option>
+                            @for (int year = currentYear + 1; year >= startYear; year--)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UndergraduatePercentage" class="form-label"></label>
+                        <input asp-for="UndergraduatePercentage" class="form-control" type="number" min="0" max="100" step="0.01" />
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section" id="pgSection">
+                <div class="form-section__heading">
+                    <span>03</span>
+                    <div>
+                        <h2>Postgraduate Details</h2>
+                        <p>Required if PG or Both is selected as highest qualification.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <label asp-for="PostgraduateUniversity" class="form-label"></label>
+                        <select asp-for="PostgraduateUniversity" class="form-select institution-select" data-location-target="PostgraduateLocation">
+                            <option value="">Select university</option>
+                            @foreach (var university in InstitutionData.Universities.OrderBy(u => u.Key))
+                            {
+                                <option value="@university.Key">@university.Key</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label asp-for="PostgraduateLocation" class="form-label">University location</label>
+                        <input asp-for="PostgraduateLocation" class="form-control location-field" placeholder="Auto-filled after selection" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PostgraduateDegree" class="form-label"></label>
+                        <select asp-for="PostgraduateDegree" class="form-select">
+                            <option value="">Select degree</option>
+                            @foreach (var degree in InstitutionData.Degrees)
+                            {
+                                <option value="@degree">@degree</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PostgraduateSpecialization" class="form-label"></label>
+                        <select asp-for="PostgraduateSpecialization" class="form-select">
+                            <option value="">Select specialization</option>
+                            @foreach (var spec in InstitutionData.Specializations)
+                            {
+                                <option value="@spec">@spec</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PostgraduatePassingYear" class="form-label"></label>
+                        <select asp-for="PostgraduatePassingYear" class="form-select">
+                            <option value="">Select year</option>
+                            @for (int year = currentYear + 1; year >= startYear; year--)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PostgraduatePercentage" class="form-label"></label>
+                        <input asp-for="PostgraduatePercentage" class="form-control" type="number" min="0" max="100" step="0.01" />
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="form-section__heading">
+                    <span>04</span>
+                    <div>
+                        <h2>Intermediate Details</h2>
+                        <p>College, board, hall ticket, score, and passed-out year.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <label asp-for="IntermediateCollege" class="form-label"></label>
+                        <select asp-for="IntermediateCollege" class="form-select institution-select" data-location-target="IntermediateLocation">
+                            <option value="">Select college</option>
+                            @foreach (var college in InstitutionData.Colleges.OrderBy(c => c.Key))
+                            {
+                                <option value="@college.Key">@college.Key</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label asp-for="IntermediateLocation" class="form-label">College location</label>
+                        <input asp-for="IntermediateLocation" class="form-control location-field" placeholder="Auto-filled after selection" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="IntermediateBoard" class="form-label"></label>
+                        <select asp-for="IntermediateBoard" class="form-select">
+                            <option value="">Select board</option>
+                            @foreach (var board in InstitutionData.Boards)
+                            {
+                                <option value="@board">@board</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="IntermediateHallTicket" class="form-label"></label>
+                        <input asp-for="IntermediateHallTicket" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="IntermediatePassingYear" class="form-label"></label>
+                        <select asp-for="IntermediatePassingYear" class="form-select">
+                            <option value="">Select year</option>
+                            @for (int year = currentYear + 1; year >= startYear; year--)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="IntermediatePercentage" class="form-label"></label>
+                        <input asp-for="IntermediatePercentage" class="form-control" type="number" min="0" max="100" step="0.01" />
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="form-section__heading">
+                    <span>05</span>
+                    <div>
+                        <h2>10th Details</h2>
+                        <p>School, board, hall ticket, score, and passed-out year.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <label asp-for="TenthInstitute" class="form-label"></label>
+                        <select asp-for="TenthInstitute" class="form-select institution-select" data-location-target="TenthLocation">
+                            <option value="">Select institute</option>
+                            @foreach (var school in InstitutionData.Schools.OrderBy(s => s.Key))
+                            {
+                                <option value="@school.Key">@school.Key</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label asp-for="TenthLocation" class="form-label">Institute location</label>
+                        <input asp-for="TenthLocation" class="form-control location-field" placeholder="Auto-filled after selection" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="TenthBoard" class="form-label"></label>
+                        <select asp-for="TenthBoard" class="form-select">
+                            <option value="">Select board</option>
+                            @foreach (var board in InstitutionData.Boards)
+                            {
+                                <option value="@board">@board</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="TenthHallTicket" class="form-label"></label>
+                        <input asp-for="TenthHallTicket" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="TenthPassingYear" class="form-label"></label>
+                        <select asp-for="TenthPassingYear" class="form-select">
+                            <option value="">Select year</option>
+                            @for (int year = currentYear + 1; year >= startYear; year--)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="TenthPercentage" class="form-label"></label>
+                        <input asp-for="TenthPercentage" class="form-control" type="number" min="0" max="100" step="0.01" />
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="form-section__heading">
+                    <span>06</span>
+                    <div>
+                        <h2>Address and Resume</h2>
+                        <p>Final details for communication and review.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label asp-for="Experience" class="form-label">Experience in years</label>
+                        <input asp-for="Experience" class="form-control" type="number" min="0" />
+                    </div>
+                    <div class="col-md-8">
+                        <label asp-for="Address" class="form-label">Address</label>
+                        <input asp-for="Address" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="City" class="form-label">City</label>
+                        <input asp-for="City" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="State" class="form-label">State</label>
+                        <input asp-for="State" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="PinCode" class="form-label">Pin code</label>
+                        <input asp-for="PinCode" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Country" class="form-label">Country</label>
+                        <input asp-for="Country" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Resume" class="form-label">Resume</label>
+                        <input asp-for="Resume" type="file" class="form-control" />
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-lg">Create Candidate Profile</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Handle qualification type selection
+        const qualificationTypeSelect = document.getElementById('qualificationType');
+        const ugSection = document.getElementById('ugSection');
+        const pgSection = document.getElementById('pgSection');
+
+        function toggleQualificationSections() {
+            const selectedType = qualificationTypeSelect.value;
+
+            // Get all input/select elements in UG and PG sections
+            const ugInputs = ugSection.querySelectorAll('input, select');
+            const pgInputs = pgSection.querySelectorAll('input, select');
+
+            // Hide all sections first, disable fields, and clear values
+            ugSection.style.display = 'none';
+            pgSection.style.display = 'none';
+
+            // Disable and clear all UG fields
+            ugInputs.forEach(input => {
+                input.disabled = true;
+                input.removeAttribute('required');
+                input.setCustomValidity('');
+                input.value = '';
+            });
+
+            // Disable and clear all PG fields
+            pgInputs.forEach(input => {
+                input.disabled = true;
+                input.removeAttribute('required');
+                input.setCustomValidity('');
+                input.value = '';
+            });
+
+            // Show sections based on selection and enable required fields
+            if (selectedType === 'UG') {
+                ugSection.style.display = 'block';
+                ugInputs.forEach(input => {
+                    input.disabled = false;
+                    input.setAttribute('required', 'required');
+                });
+            } else if (selectedType === 'PG') {
+                pgSection.style.display = 'block';
+                pgInputs.forEach(input => {
+                    input.disabled = false;
+                    input.setAttribute('required', 'required');
+                });
+            } else if (selectedType === 'Both') {
+                ugSection.style.display = 'block';
+                pgSection.style.display = 'block';
+                ugInputs.forEach(input => {
+                    input.disabled = false;
+                    input.setAttribute('required', 'required');
+                });
+                pgInputs.forEach(input => {
+                    input.disabled = false;
+                    input.setAttribute('required', 'required');
+                });
+            }
+
+            // Re-parse the form to update jQuery validation rules
+            const form = document.querySelector('form');
+            if (typeof $ !== 'undefined' && $.validator && $(form).length) {
+                $(form).removeData('validator');
+                $(form).removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse(form);
+            }
+        }
+
+        qualificationTypeSelect.addEventListener('change', toggleQualificationSections);
+
+        // Initial state - sync sections with whatever QualificationType is
+        // already selected (e.g. after a failed submit / validation postback).
+        // Previously this just hard-hid both sections, so a value that
+        // survived a postback (like "PG") left its section hidden and stale
+        // errors from the previous selection on screen.
+        toggleQualificationSections();
+
+        const institutionLocations = {
+            @foreach (var item in InstitutionData.Universities)
+            {
+                @Html.Raw($"\"{item.Key}\": \"{item.Value}\",")
+            }
+            @foreach (var item in InstitutionData.Colleges)
+            {
+                @Html.Raw($"\"{item.Key}\": \"{item.Value}\",")
+            }
+            @foreach (var item in InstitutionData.Schools)
+            {
+                @Html.Raw($"\"{item.Key}\": \"{item.Value}\",")
+            }
+        };
+
+        document.querySelectorAll(".institution-select").forEach((select) => {
+            select.addEventListener("change", () => {
+                const targetName = select.dataset.locationTarget;
+                const target = document.querySelector(`[name="${targetName}"]`);
+
+                if (!target) {
+                    return;
+                }
+
+                const location = institutionLocations[select.value] || "";
+                target.value = location;
+
+                // Make field read-only if location is auto-filled and not a manual entry
+                target.readOnly = select.value && select.value !== "Other" && !location.toLowerCase().includes("enter") && !location.toLowerCase().includes("manual");
+
+                // If it's a manual entry location, clear the readonly and focus
+                if (location.toLowerCase().includes("enter") || location.toLowerCase().includes("manual")) {
+                    target.readOnly = false;
+                    target.value = "";
+                    target.placeholder = "Please enter the exact location";
+                    target.focus();
+                }
+            });
+        });
+    </script>
+}

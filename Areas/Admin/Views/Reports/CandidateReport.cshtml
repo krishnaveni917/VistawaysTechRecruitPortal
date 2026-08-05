@@ -1,0 +1,40 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.Candidate>
+
+@{
+    ViewData["Title"] = "Candidate Report";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+        <h4>Candidate Report</h4>
+        <a asp-action="Index" class="btn btn-light btn-sm">Back to Dashboard</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Experience</th>
+                    <th>Applications</th>
+                    <th>Registered On</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>@item.Email</td>
+                        <td>@item.MobileNumber</td>
+                        <td>@item.Experience years</td>
+                        <td>@item.Applications.Count</td>
+                        <td>@item.RegistrationDate.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

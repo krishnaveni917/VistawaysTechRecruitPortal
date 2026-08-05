@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Upload Documents";
+}
+
+<h2>Upload Documents</h2>
+
+<form asp-action="Upload"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label>Aadhaar Card</label>
+        <input type="file" name="aadhaar" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>PAN Card</label>
+        <input type="file" name="pan" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Degree Certificate</label>
+        <input type="file" name="degree" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Experience Certificate</label>
+        <input type="file" name="experience" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Passport Photo</label>
+        <input type="file" name="photo" class="form-control" />
+    </div>
+
+    <button class="btn btn-success">
+        Upload Documents
+    </button>
+
+</form>

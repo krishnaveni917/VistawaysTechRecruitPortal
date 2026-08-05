@@ -1,0 +1,64 @@
+@model VistaWaysTechRecruitPortal.Models.Application
+
+@{
+    ViewData["Title"] = "Application Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Application Details</h4>
+        <a asp-action="Index" class="btn btn-light btn-sm">Back to List</a>
+    </div>
+
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5>Candidate Information</h5>
+                <table class="table table-borderless">
+                    <tr><th>Candidate ID</th><td>@Model.Candidate?.CandidateId</td></tr>
+                    <tr><th>Name</th><td>@Model.Candidate?.FirstName @Model.Candidate?.LastName</td></tr>
+                    <tr><th>Email</th><td>@Model.Candidate?.Email</td></tr>
+                    <tr><th>Mobile</th><td>@Model.Candidate?.MobileNumber</td></tr>
+                    <tr>
+                        <th>Resume</th>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(Model.Candidate?.ResumePath))
+                            {
+                                <a href="@Model.Candidate.ResumePath" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-file-download"></i> View Resume
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not uploaded</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5>Job Information</h5>
+                <table class="table table-borderless">
+                    <tr><th>Job Title</th><td>@Model.Job?.JobTitle</td></tr>
+                    <tr><th>Department</th><td>@Model.Job?.Department</td></tr>
+                    <tr><th>Location</th><td>@Model.Job?.Location</td></tr>
+                    <tr><th>Employment Type</th><td>@Model.Job?.EmploymentType</td></tr>
+                    <tr><th>Applied Date</th><td>@Model.AppliedDate.ToString("dd-MMM-yyyy HH:mm")</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h5>Update Status</h5>
+        <form asp-action="UpdateStatus" method="post" class="d-flex gap-2">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <select name="status" class="form-select" style="max-width:260px;">
+                @foreach (var s in new[] { "Pending", "Under Review", "Shortlisted", "Selected", "Rejected", "Withdrawn", "Offered" })
+                {
+                    <option value="@s" selected="@(Model.Status == s)">@s</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-success">Update Status</button>
+        </form>
+    </div>
+</div>

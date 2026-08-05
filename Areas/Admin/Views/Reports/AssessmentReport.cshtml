@@ -1,0 +1,49 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.AssessmentResult>
+
+@{
+    ViewData["Title"] = "Assessment Report";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+        <h4>Assessment Report</h4>
+        <a asp-action="Index" class="btn btn-light btn-sm">Back to Dashboard</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Total Questions</th>
+                    <th>Correct Answers</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                    <th>Submitted On</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CandidateId</td>
+                        <td>@item.TotalQuestions</td>
+                        <td>@item.CorrectAnswers</td>
+                        <td>@item.Score%</td>
+                        <td>
+                            @if (item.IsPassed)
+                            {
+                                <span class="badge bg-success">Passed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Failed</span>
+                            }
+                        </td>
+                        <td>@item.SubmittedOn.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

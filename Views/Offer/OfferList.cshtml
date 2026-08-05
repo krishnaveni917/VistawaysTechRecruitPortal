@@ -1,0 +1,60 @@
+﻿@model IEnumerable<VistaWaysTechRecruitPortal.Models.OfferLetter>
+
+<h2>Offer Letters</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+
+            <th>Candidate</th>
+
+            <th>Designation</th>
+
+            <th>Department</th>
+
+            <th>Joining</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.CandidateId</td>
+
+                <td>@item.Designation</td>
+
+                <td>@item.Department</td>
+
+                <td>@item.JoiningDate.ToShortDateString()</td>
+
+                <td>@item.OfferStatus</td>
+
+                <td>
+
+                    <a asp-action="SendOffer"
+                       asp-route-id="@item.Id"
+                       class="btn btn-primary">
+
+                        Send Offer
+
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

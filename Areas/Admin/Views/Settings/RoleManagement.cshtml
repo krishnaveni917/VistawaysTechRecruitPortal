@@ -1,0 +1,138 @@
+@model List<string>
+@{
+    ViewData["Title"] = "Role Management";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning">
+        <h4>Role Management</h4>
+    </div>
+    <div class="card-body">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show">
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show">
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Role management allows you to control user permissions and access levels within the system.
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Admin Role</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Permissions:</strong></p>
+                        <ul>
+                            <li>Full access to all modules</li>
+                            <li>Manage candidates and jobs</li>
+                            <li>Configure assessments and interviews</li>
+                            <li>View reports and analytics</li>
+                            <li>Manage system settings</li>
+                        </ul>
+                        <button class="btn btn-sm btn-primary" disabled>Active</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header bg-secondary text-white">
+                        <h5>Candidate Role</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Permissions:</strong></p>
+                        <ul>
+                            <li>View available jobs</li>
+                            <li>Submit job applications</li>
+                            <li>Take assessments</li>
+                            <li>View application status</li>
+                            <li>Manage profile</li>
+                        </ul>
+                        <button class="btn btn-sm btn-secondary" disabled>Active</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h5>Additional Roles</h5>
+            <p class="text-muted">More roles can be added as needed for recruiters, interviewers, etc.</p>
+
+            @if (Model != null && Model.Count > 0)
+            {
+                <div class="row">
+                    @foreach (var role in Model)
+                    {
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">@role Role</h5>
+                                    <span class="badge bg-light text-success">Active</span>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Permissions:</strong></p>
+                                    <ul>
+                                        <li>Access defined for the @role role</li>
+                                        <li>Assigned by an administrator</li>
+                                        <li>Permissions can be customized as needed</li>
+                                    </ul>
+                                    <button class="btn btn-sm btn-success" disabled>Active</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                <i class="fas fa-plus me-1"></i>Add New Role
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Role Modal -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="CreateRole" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="roleNameInput" class="form-label">Role Name</label>
+                    <input type="text" class="form-control" id="roleNameInput" name="roleName"
+                           placeholder="e.g. Recruiter, Interviewer" required maxlength="100" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Create Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            new bootstrap.Modal(document.getElementById('addRoleModal')).show();
+        });
+    </script>
+}

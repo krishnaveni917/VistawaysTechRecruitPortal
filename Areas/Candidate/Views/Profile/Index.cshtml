@@ -1,0 +1,141 @@
+@model VistaWaysTechRecruitPortal.Models.Candidate
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Profile</h2>
+    <a asp-action="Edit" class="btn btn-primary">
+        <i class="fas fa-edit me-2"></i>Edit Profile
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <i class="fas fa-user me-2"></i>Personal Information
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-borderless mb-0">
+                    <tr><th style="width:180px;">Candidate ID</th><td>@Model.CandidateId</td></tr>
+                    <tr><th>Full Name</th><td>@Model.FirstName @Model.LastName</td></tr>
+                    <tr><th>Email</th><td>@Model.Email</td></tr>
+                    <tr><th>Mobile</th><td>@Model.MobileNumber</td></tr>
+                    <tr><th>Date of Birth</th><td>@Model.DateOfBirth.ToString("dd-MMM-yyyy")</td></tr>
+                    <tr><th>Gender</th><td>@Model.Gender</td></tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-borderless mb-0">
+                    <tr><th style="width:180px;">Address</th><td>@Model.Address</td></tr>
+                    <tr><th>City</th><td>@Model.City</td></tr>
+                    <tr><th>State</th><td>@Model.State</td></tr>
+                    <tr><th>Country</th><td>@Model.Country</td></tr>
+                    <tr><th>Pin Code</th><td>@Model.PinCode</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-info text-white">
+        <i class="fas fa-graduation-cap me-2"></i>Education Details
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Level</th>
+                        <th>Institution</th>
+                        <th>Board / University</th>
+                        <th>Specialization</th>
+                        <th>Passing Year</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10th</td>
+                        <td>@Model.TenthInstitute</td>
+                        <td>@Model.TenthBoard</td>
+                        <td>&mdash;</td>
+                        <td>@Model.TenthPassingYear</td>
+                        <td>@Model.TenthPercentage%</td>
+                    </tr>
+                    <tr>
+                        <td>Intermediate</td>
+                        <td>@Model.IntermediateCollege</td>
+                        <td>@Model.IntermediateBoard</td>
+                        <td>&mdash;</td>
+                        <td>@Model.IntermediatePassingYear</td>
+                        <td>@Model.IntermediatePercentage%</td>
+                    </tr>
+                    @if (!string.IsNullOrWhiteSpace(Model.UndergraduateUniversity))
+                    {
+                        <tr>
+                            <td>Undergraduate</td>
+                            <td>@Model.UndergraduateUniversity</td>
+                            <td>@Model.UndergraduateDegree</td>
+                            <td>@Model.UndergraduateSpecialization</td>
+                            <td>@Model.UndergraduatePassingYear</td>
+                            <td>@Model.UndergraduatePercentage%</td>
+                        </tr>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.PostgraduateUniversity))
+                    {
+                        <tr>
+                            <td>Postgraduate</td>
+                            <td>@Model.PostgraduateUniversity</td>
+                            <td>@Model.PostgraduateDegree</td>
+                            <td>@Model.PostgraduateSpecialization</td>
+                            <td>@Model.PostgraduatePassingYear</td>
+                            <td>@Model.PostgraduatePercentage%</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <p class="mb-0"><strong>Highest Qualification:</strong> @Model.Qualification (@Model.Specialization) &mdash; @Model.PassingYear, @Model.Percentage%</p>
+        <p class="mb-0"><strong>Experience:</strong> @Model.Experience year(s)</p>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        <i class="fas fa-file-pdf me-2"></i>Resume &amp; Status
+    </div>
+    <div class="card-body">
+        <table class="table table-borderless mb-0">
+            <tr>
+                <th style="width:220px;">Resume</th>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(Model.ResumePath))
+                    {
+                        <a href="@Model.ResumePath" target="_blank" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="fas fa-eye"></i> View Resume
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted me-2">Not uploaded</span>
+                    }
+                    <a asp-controller="Resume" asp-action="Index" class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-upload"></i> Manage Resume
+                    </a>
+                </td>
+            </tr>
+            <tr><th>Recruitment Stage</th><td><span class="badge bg-info text-dark">@Model.RecruitmentStatus</span></td></tr>
+            <tr><th>Profile Reviewed</th><td>@(Model.ProfileReviewed ? "Yes" : "Pending")</td></tr>
+            <tr><th>Registration Date</th><td>@Model.RegistrationDate.ToString("dd-MMM-yyyy")</td></tr>
+        </table>
+    </div>
+</div>

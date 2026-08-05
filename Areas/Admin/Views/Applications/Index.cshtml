@@ -1,0 +1,88 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.Application>
+
+@{
+    ViewData["Title"] = "Applications";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Applications</h4>
+
+        <form method="get" class="d-flex gap-2">
+            <input type="text" name="search" value="@ViewBag.Search" class="form-control form-control-sm" placeholder="Search candidate / job..." />
+            <select name="status" class="form-select form-select-sm">
+                <option value="">All Status</option>
+                @foreach (var s in new[] { "Pending", "Under Review", "Shortlisted", "Selected", "Rejected", "Withdrawn", "Offered" })
+                {
+                    <option value="@s" selected="@(ViewBag.Status == s)">@s</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-light btn-sm">Filter</button>
+        </form>
+    </div>
+
+    <div class="card-body">
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Candidate ID</th>
+                            <th>Candidate Name</th>
+                            <th>Job Title</th>
+                            <th>Department</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Candidate?.CandidateId</td>
+                                <td>@item.Candidate?.FirstName @item.Candidate?.LastName</td>
+                                <td>@item.Job?.JobTitle</td>
+                                <td>@item.Job?.Department</td>
+                                <td>@item.AppliedDate.ToString("dd-MMM-yyyy")</td>
+                                <td>
+                                    @{
+                                        var badgeClass = item.Status switch
+                                        {
+                                            "Pending" => "bg-warning text-dark",
+                                            "Under Review" => "bg-info text-dark",
+                                            "Shortlisted" => "bg-primary",
+                                            "Selected" => "bg-success",
+                                            "Offered" => "bg-success",
+                                            "Rejected" => "bg-danger",
+                                            "Withdrawn" => "bg-secondary",
+                                            _ => "bg-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badgeClass">@item.Status</span>
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                No Applications Found.
+            </div>
+        }
+
+    </div>
+
+</div>

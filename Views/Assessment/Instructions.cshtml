@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Assessment Instructions";
+}
+
+<div class="container mt-4 mb-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Before You Begin</h3>
+        </div>
+
+        <div class="card-body">
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+
+            <div id="instructionsScroll"
+                 style="max-height: 380px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; background: #f8f9fa;">
+
+                <h5>VistaWays Tech &ndash; Online Assessment Instructions</h5>
+
+                <p>Please read the following carefully before starting your assessment.</p>
+
+                <ol>
+                    <li>The assessment consists of multiple-choice questions and is <strong>timed to 30 minutes</strong>. A countdown timer will be visible at all times.</li>
+                    <li>When the timer reaches zero, the assessment will <strong>automatically submit</strong> whatever answers you have selected.</li>
+                    <li>Once you click <strong>"I Agree &amp; Start Assessment"</strong>, the timer begins immediately and cannot be paused.</li>
+                    <li>The assessment will open in <strong>full-screen mode</strong>. Do not exit full screen for any reason.</li>
+                    <li><strong>Do not switch tabs, minimize the window, or navigate away</strong> from the assessment screen. Doing so will immediately and permanently end your attempt.</li>
+                    <li>You are allowed <strong>one attempt only</strong>. Once submitted (or ended due to a violation), you cannot retake this assessment.</li>
+                    <li>Ensure you have a stable internet connection and are in a quiet environment before you begin.</li>
+                    <li>Use of external assistance, additional devices, or another person during the assessment is not permitted.</li>
+                    <li>Your session is tied to your candidate account. Do not share your login credentials with anyone.</li>
+                    <li>By proceeding, you confirm that you understand and agree to these conditions and consent to your assessment session being monitored for the behaviors described above.</li>
+                </ol>
+
+                <p class="text-muted">Scroll to the end of this box, then select "I Agree" below to continue.</p>
+            </div>
+
+            <form asp-action="Instructions" method="post" class="mt-4">
+                <input type="hidden" name="token" value="@ViewBag.AssessmentToken" />
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="agree" id="agreeYes" value="true" disabled />
+                    <label class="form-check-label" for="agreeYes">
+                        I have read and understood the instructions above, and I agree to these conditions.
+                    </label>
+                </div>
+
+                <small id="scrollHint" class="text-danger d-block mb-3">
+                    Please scroll to the bottom of the instructions box to enable this option.
+                </small>
+
+                <button type="submit" id="startBtn" class="btn btn-success" disabled>
+                    I Agree &amp; Start Assessment
+                </button>
+                <a asp-controller="Candidate" asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const scrollBox = document.getElementById('instructionsScroll');
+        const agreeRadio = document.getElementById('agreeYes');
+        const startBtn = document.getElementById('startBtn');
+        const scrollHint = document.getElementById('scrollHint');
+
+        function checkScrolled() {
+            const scrolledToBottom = scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 5;
+            if (scrolledToBottom) {
+                agreeRadio.disabled = false;
+                scrollHint.style.display = 'none';
+            }
+        }
+
+        scrollBox.addEventListener('scroll', checkScrolled);
+        // In case the content already fits without scrolling.
+        window.addEventListener('load', checkScrolled);
+
+        agreeRadio.addEventListener('change', function () {
+            startBtn.disabled = !agreeRadio.checked;
+        });
+    </script>
+}

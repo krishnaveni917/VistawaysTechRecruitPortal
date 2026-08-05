@@ -1,0 +1,163 @@
+@model VistaWaysTechRecruitPortal.Models.Job
+
+@{
+    ViewData["Title"] = "Job Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+
+    <div class="card-header bg-info text-white">
+
+        <h4>Job Details</h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5>@Model.JobTitle</h5>
+                <p class="text-muted">@Model.Department</p>
+            </div>
+            <div class="col-md-6 text-end">
+                @if (Model.IsActive)
+                {
+                    <span class="badge bg-success fs-6">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger fs-6">Closed</span>
+                }
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Location:</strong> @Model.Location
+            </div>
+            <div class="col-md-6">
+                <strong>Employment Type:</strong> @Model.EmploymentType
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Experience Required:</strong> @Model.Experience
+            </div>
+            <div class="col-md-6">
+                <strong>Qualification Required:</strong> @Model.Qualification
+            </div>
+        </div>
+
+        @if (Model.Salary.HasValue)
+        {
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Salary Range:</strong> ₹@Model.Salary.Value.ToString("N0")
+                </div>
+            </div>
+        }
+
+        <div class="mb-3">
+            <strong>Description:</strong>
+            <p class="mt-2">@Model.Description</p>
+        </div>
+
+        <div class="row mt-4 mb-4">
+
+            <div class="col-md-4">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <h6>Applications</h6>
+                        <h3>@Model.Applications.Count</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h6>Status</h6>
+                        <h3>
+                            @(Model.IsActive ? "Active" : "Closed")
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <h6>Posted On</h6>
+                        <small>@Model.PostedDate.ToString("dd MMM yyyy")</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning" > 
+                <i class="fas fa-edit me-2"></i>Edit
+            </a>
+                @if (Model.Applications.Any())
+                {
+                    <button class="btn btn-danger" disabled>
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                }
+                else
+                {
+                    <a asp-action="Delete"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </a>
+                }
+                @if (Model.IsActive)
+                {
+                    <a asp-action="ToggleStatus"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-warning">
+                        <i class="fas fa-lock"></i>
+                        Close Job
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="ToggleStatus"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-success">
+                        <i class="fas fa-unlock"></i>
+                        Open Job
+                    </a>
+                }
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
+
+    </div>
+
+</div>
+    @if (Model.Applications.Any())
+    {
+        <div class="alert alert-info mt-3">
+
+            This job has
+            <strong>@Model.Applications.Count</strong>
+            application(s).
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning mt-3">
+
+            No candidates have applied for this job yet.
+
+        </div>
+    }

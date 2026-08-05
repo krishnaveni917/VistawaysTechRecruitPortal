@@ -1,0 +1,49 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.Job>
+
+@{
+    ViewData["Title"] = "Recruitment Report";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+        <h4>Recruitment Report</h4>
+        <a asp-action="Index" class="btn btn-light btn-sm">Back to Dashboard</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Department</th>
+                    <th>Location</th>
+                    <th>Applications</th>
+                    <th>Status</th>
+                    <th>Posted Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.JobTitle</td>
+                        <td>@item.Department</td>
+                        <td>@item.Location</td>
+                        <td>@item.Applications.Count</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Closed</span>
+                            }
+                        </td>
+                        <td>@item.PostedDate.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

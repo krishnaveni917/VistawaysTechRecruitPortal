@@ -1,0 +1,565 @@
+@{
+    ViewData["Title"] = "Careers";
+}
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        min-height: 85vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></svg>');
+        background-size: 100px 100px;
+        opacity: 0.5;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 100px 0;
+    }
+
+    .hero-badge {
+        background: rgba(255, 107, 107, 0.15);
+        color: #ff6b6b;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        display: inline-block;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .hero-title {
+        font-size: 56px;
+        font-weight: 800;
+        color: #ffffff;
+        line-height: 1.2;
+        margin-bottom: 25px;
+        max-width: 800px;
+    }
+
+    .hero-subtitle {
+        font-size: 20px;
+        color: #a8b2d1;
+        justify-content: center;
+        justify-items: center;
+        text-align: center;
+        position: relative;
+        line-height: 1.6;
+        margin-bottom: 40px;
+        max-width: 650px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+        color: white;
+        padding: 18px 40px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 16px;
+        border: none;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-hero-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+    }
+
+    .btn-hero-secondary {
+        background: transparent;
+        color: white;
+        padding: 18px 40px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-hero-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .stats-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+    }
+
+    .stat-card {
+        text-align: center;
+        padding: 30px;
+    }
+
+    .stat-number {
+        font-size: 48px;
+        font-weight: 800;
+        color: #0f3460;
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        font-size: 16px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .search-section {
+        background: white;
+        padding: 80px 0;
+    }
+
+    .search-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .search-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 15px;
+    }
+
+    .search-subtitle {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .search-input {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .search-input input {
+        flex: 1;
+        min-width: 300px;
+        padding: 18px 25px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input input:focus {
+        outline: none;
+        border-color: #0f3460;
+    }
+
+    .search-input select {
+        padding: 18px 25px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 16px;
+        min-width: 200px;
+        transition: all 0.3s ease;
+    }
+
+    .search-input select:focus {
+        outline: none;
+        border-color: #0f3460;
+    }
+
+    .search-btn {
+        background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        color: white;
+        padding: 18px 40px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .search-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(15, 52, 96, 0.3);
+    }
+
+    .categories-section {
+        padding: 80px 0;
+        background: white;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-badge {
+        background: rgba(15, 52, 96, 0.1);
+        color: #0f3460;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: #1a1a2e;
+        margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+        font-size: 18px;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .category-card {
+        background: #f8f9fa;
+        border-radius: 20px;
+        padding: 40px 30px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    .category-card:hover {
+        background: white;
+        border-color: #0f3460;
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+        margin-bottom: 25px;
+    }
+
+    .category-card h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 15px;
+    }
+
+    .category-card p {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .category-link {
+        color: #0f3460;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .category-link:hover {
+        gap: 12px;
+    }
+
+    .process-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+
+    .process-step {
+        text-align: center;
+        position: relative;
+    }
+
+    .step-number {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        color: white;
+        margin: 0 auto 25px;
+        box-shadow: 0 10px 30px rgba(15, 52, 96, 0.3);
+    }
+
+    .process-step h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 15px;
+    }
+
+    .process-step p {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        text-align: center;
+    }
+
+    .cta-section h2 {
+        font-size: 48px;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .cta-section p {
+        font-size: 20px;
+        color: #a8b2d1;
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 36px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+        }
+
+        .section-title {
+            font-size: 32px;
+        }
+
+        .search-input {
+            flex-direction: column;
+        }
+
+        .search-input input,
+        .search-input select {
+            width: 100%;
+        }
+    }
+</style>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-8">
+                    <span class="hero-badge">🚀 We're Hiring</span>
+                    <h1 class="hero-title">Build Your Future at VistaWays Tech</h1>
+                    <p class="hero-subtitle">Join a team of innovators, problem-solvers, and industry leaders. We're looking for talented individuals who want to make an impact.</p>
+                    <div class="hero-buttons">
+                        <a asp-controller="Otp" asp-action="RegisterEmailOtp" class="btn-hero-primary">Apply Now</a>
+                        <a asp-area="Candidate" asp-controller="Account" asp-action="Login" class="btn-hero-secondary">Candidate Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Employees</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Open Positions</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Client Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <h2 class="search-title">Find Your Dream Job</h2>
+                <p class="search-subtitle">Search through our open positions and find the perfect role for your skills and experience.</p>
+                <div class="search-input">
+                    <form asp-area="Candidate" asp-controller="Jobs" asp-action="Index" method="get" class="d-flex gap-3 flex-wrap">
+                        <input type="text" name="searchTerm" placeholder="Search by job title, keyword, or location..." class="flex-grow-1" style="min-width: 300px; padding: 18px 25px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease;" />
+                        <select name="department" style="padding: 18px 25px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; min-width: 200px; transition: all 0.3s ease;">
+                            <option value="">All Categories</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="IT">IT</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                        <select name="location" style="padding: 18px 25px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; min-width: 200px; transition: all 0.3s ease;">
+                            <option value="">All Locations</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                        <button type="submit" class="search-btn">Search Jobs</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Career Areas</span>
+                <h2 class="section-title">Explore Our Job Categories</h2>
+                <p class="section-subtitle">Discover opportunities across various domains and find the perfect match for your expertise.</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">💻</div>
+                    <h3>Software Engineering</h3>
+                    <p>Build innovative solutions using cutting-edge technologies. Work on projects that impact millions.</p>
+                    <a asp-area="Candidate" asp-controller="Jobs" asp-action="Index" asp-route-department="Engineering" class="category-link">View Positions →</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">☁️</div>
+                    <h3>Cloud & Infrastructure</h3>
+                    <p>Design and manage scalable cloud architectures. Ensure reliability and performance of our systems.</p>
+                    <a asp-area="Candidate" asp-controller="Jobs" asp-action="Index" asp-route-department="IT" class="category-link">View Positions →</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📊</div>
+                    <h3>Data & Analytics</h3>
+                    <p>Transform data into actionable insights. Work with big data, ML, and business intelligence.</p>
+                    <a asp-area="Candidate" asp-controller="Jobs" asp-action="Index" asp-route-department="IT" class="category-link">View Positions →</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3>Design & UX</h3>
+                    <p>Create beautiful, intuitive experiences. Shape how users interact with our products.</p>
+                    <a asp-area="Candidate" asp-controller="Jobs" asp-action="Index" asp-route-department="Engineering" class="category-link">View Positions →</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📈</div>
+                    <h3>Marketing & Growth</h3>
+                    <p>Drive brand awareness and customer acquisition. Develop innovative marketing strategies.</p>
+                    <a asp-area="Candidate" asp-controller="Jobs" asp-action="Index" asp-route-department="Marketing" class="category-link">View Positions →</a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🤝</div>
+                    <h3>Sales & Business</h3>
+                    <p>Build relationships with clients and grow our business. Close deals and drive revenue.</p>
+                    <a asp-area="Candidate" asp-controller="Jobs" asp-action="Index" asp-route-department="Sales" class="category-link">View Positions →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">How We Hire</span>
+                <h2 class="section-title">Our Recruitment Process</h2>
+                <p class="section-subtitle">A transparent and efficient journey from application to onboarding.</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Register</h3>
+                    <p>Create your profile and verify your email to get started with the application process.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Assessment</h3>
+                    <p>Complete our secure assessment to showcase your skills and technical abilities.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Interview</h3>
+                    <p>Meet our team through technical and HR interviews to discuss your fit for the role.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Offer</h3>
+                    <p>Receive an offer, complete documentation, and join our amazing team!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Start Your Journey?</h2>
+            <p>Join VistaWays Tech and be part of something extraordinary. Your next career move starts here.</p>
+            <a asp-controller="Otp" asp-action="RegisterEmailOtp" class="btn-hero-primary">Apply Now</a>
+        </div>
+    </section>
+</main>

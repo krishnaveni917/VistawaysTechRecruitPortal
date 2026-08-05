@@ -1,0 +1,88 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.Candidate>
+
+<h2>Candidate List</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Candidate ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Qualification</th>
+            <th>Education</th>
+            <th>Status</th>
+            <th>Resume</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CandidateId</td>
+                <td>@item.FirstName @item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.Qualification @item.Specialization</td>
+                <td>
+                    <strong>UG:</strong> @item.UndergraduateDegree @item.UndergraduateSpecialization
+                    <br />
+                    <span>@item.UndergraduateUniversity, @item.UndergraduatePassingYear</span>
+                    <br />
+                    <strong>Inter:</strong> @item.IntermediateCollege, @item.IntermediatePercentage%
+                    <br />
+                    <strong>10th:</strong> @item.TenthInstitute, @item.TenthPercentage%
+                </td>
+                <td>
+                    <span class="badge bg-info text-dark">@item.RecruitmentStatus</span>
+                </td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(item.ResumePath))
+                    {
+                        <a href="@item.ResumePath" target="_blank">View Resume</a>
+                    }
+                    else
+                    {
+                        <span>Not uploaded</span>
+                    }
+                </td>
+                <td>
+                    @if (!item.ProfileReviewed)
+                    {
+                        <a class="btn btn-outline-secondary btn-sm"
+                           asp-action="ReviewProfile"
+                           asp-route-id="@item.Id">
+                            Review Profile
+                        </a>
+                    }
+
+                    <a class="btn btn-success btn-sm"
+                       asp-action="SendAssessment"
+                       asp-route-id="@item.Id">
+                        Send Assessment
+                    </a>
+
+                    <a asp-controller="Interview"
+                       asp-action="Schedule"
+                       asp-route-candidateId="@item.Id"
+                       class="btn btn-primary btn-sm">
+                        Schedule Interview
+                    </a>
+
+                    <a asp-controller="Offer"
+                       asp-action="Create"
+                       asp-route-candidateId="@item.Id"
+                       class="btn btn-warning btn-sm">
+                        Generate Offer
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

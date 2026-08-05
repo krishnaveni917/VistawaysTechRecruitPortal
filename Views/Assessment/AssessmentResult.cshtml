@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Assessment Result";
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-body text-center">
+
+            <h2>
+
+                Assessment Completed
+
+            </h2>
+
+            <hr />
+
+            <h3>
+
+                Your Score
+
+            </h3>
+
+            <h1 class="text-success">
+
+                @ViewBag.Score
+
+            </h1>
+
+            <a asp-controller="Candidate"
+               asp-action="Dashboard"
+               class="btn btn-primary">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,37 @@
+@model VistaWaysTechRecruitPortal.Models.AssessmentResult
+@{
+    ViewData["Title"] = "Assessment Result";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header @(Model.IsPassed ? "bg-success" : "bg-danger") text-white">
+        <h4 class="mb-0">Assessment Result</h4>
+    </div>
+    <div class="card-body text-center py-5">
+        @if (Model.IsPassed)
+        {
+            <i class="fas fa-check-circle text-success" style="font-size:64px;"></i>
+            <h3 class="mt-3 text-success">Congratulations! You Passed</h3>
+        }
+        else
+        {
+            <i class="fas fa-times-circle text-danger" style="font-size:64px;"></i>
+            <h3 class="mt-3 text-danger">You Did Not Pass</h3>
+        }
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <table class="table table-borderless">
+                    <tr><th>Score</th><td>@Model.Score</td></tr>
+                    <tr><th>Correct Answers</th><td>@Model.CorrectAnswers / @Model.TotalQuestions</td></tr>
+                    <tr><th>Submitted On</th><td>@Model.SubmittedOn.ToString("dd-MMM-yyyy HH:mm")</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <a asp-action="Index" class="btn btn-primary mt-3">
+            <i class="fas fa-arrow-left me-2"></i>Back to Assessments
+        </a>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<VistaWaysTechRecruitPortal.Models.Interview>
+
+<h2>Interview Schedule</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+
+            <th>Candidate</th>
+            <th>Interview</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Rating</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <tr>
+
+                    <td>@item.CandidateId</td>
+
+                    <td>@item.InterviewType</td>
+
+                    <td>@item.InterviewDate.ToShortDateString()</td>
+
+                    <td>@item.Status</td>
+
+                    <td>@item.Rating</td>
+
+                    <td>
+
+                        <a asp-action="Edit"
+                           asp-route-id="@item.Id"
+                           class="btn btn-warning btn-sm">
+
+                            Edit
+
+                        </a>
+
+                    </td>
+
+                </tr>
+           </tr>
+            
+        }
+
+    </tbody>
+
+</table>

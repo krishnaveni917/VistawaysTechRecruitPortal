@@ -1,0 +1,76 @@
+@model VistaWaysTechRecruitPortal.Models.Interview
+
+@{
+    ViewData["Title"] = "Edit Interview";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-info text-white">
+        <h4>Edit Interview</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label asp-for="CandidateId" class="form-label">Candidate</label>
+                <select asp-for="CandidateId" class="form-select" asp-items="@(new SelectList(ViewBag.Candidates, "Id", "FirstName"))" required>
+                    <option value="">Select Candidate</option>
+                </select>
+                <span asp-validation-for="CandidateId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="InterviewType" class="form-label">Interview Type</label>
+                <select asp-for="InterviewType" class="form-select" required>
+                    <option value="">Select Type</option>
+                    <option value="Technical">Technical</option>
+                    <option value="HR">HR</option>
+                    <option value="Managerial">Managerial</option>
+                    <option value="Final">Final Round</option>
+                </select>
+                <span asp-validation-for="InterviewType" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="InterviewDate" class="form-label">Date</label>
+                <input asp-for="InterviewDate" class="form-control" type="date" required />
+                <span asp-validation-for="InterviewDate" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="InterviewTime" class="form-label">Time</label>
+                <input asp-for="InterviewTime" class="form-control" type="time" required />
+                <span asp-validation-for="InterviewTime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="InterviewMode" class="form-label">Mode</label>
+                <select asp-for="InterviewMode" class="form-select" required>
+                    <option value="">Select Mode</option>
+                    <option value="In-Person">In-Person</option>
+                    <option value="Video Call">Video Call</option>
+                    <option value="Phone">Phone</option>
+                </select>
+                <span asp-validation-for="InterviewMode" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="MeetingLink" class="form-label">Meeting Link</label>
+                <input asp-for="MeetingLink" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="MeetingLink" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Interviewer" class="form-label">Interviewer</label>
+                <input asp-for="Interviewer" class="form-control" required />
+                <span asp-validation-for="Interviewer" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-select" required>
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

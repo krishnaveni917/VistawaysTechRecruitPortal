@@ -1,0 +1,68 @@
+@using VistaWaysTechRecruitPortal.ViewModels
+@model OtpVerificationViewModel
+
+@{
+    ViewData["Title"] = "Verify Email";
+}
+
+<section class="form-page otp-page">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Email Verification</p>
+            <h1>Verify Your Email Address</h1>
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="form-card otp-card">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form asp-action="VerifyOtp" method="post">
+            <div class="otp-instructions">
+                <p>We've sent a 6-digit OTP to your email address. Please enter it below to verify your email.</p>
+                <p class="text-muted">The OTP will expire in 10 minutes.</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="form-label">Email address</label>
+                <input asp-for="Email" class="form-control" readonly />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Otp" class="form-label">Enter 6-digit OTP</label>
+                <input asp-for="Otp" class="form-control otp-input" maxlength="6" placeholder="123456" autofocus />
+                <span asp-validation-for="Otp" class="text-danger"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-lg">Verify Email</button>
+            </div>
+
+            <div class="resend-otp">
+                <p>Didn't receive the OTP?</p>
+                <a asp-action="ResendOtp" asp-route-email="@Model.Email" class="btn btn-outline-secondary">Resend OTP</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Auto-format OTP input
+        document.querySelector('.otp-input').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+        });
+    </script>
+}

@@ -1,0 +1,33 @@
+﻿@model VistaWaysTechRecruitPortal.Models.OfferLetter
+
+<h2>Create Offer Letter</h2>
+
+<form asp-action="Create" method="post">
+
+    <input asp-for="CandidateId" type="hidden" value="@ViewBag.CandidateId" />
+
+    <div class="mb-3">
+        <label>Designation</label>
+        <input asp-for="Designation" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Department</label>
+        <input asp-for="Department" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Salary (Annual CTC)</label>
+        <input asp-for="Salary" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Joining Date</label>
+        <input asp-for="JoiningDate" type="date" class="form-control" />
+    </div>
+
+    <button class="btn btn-success">
+        Generate Offer Letter
+    </button>
+
+</form>

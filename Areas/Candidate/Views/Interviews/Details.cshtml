@@ -1,0 +1,40 @@
+@model VistaWaysTechRecruitPortal.Models.Interview
+@{
+    ViewData["Title"] = "Interview Details";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Interview Details</h4>
+        <a asp-action="Index" class="btn btn-light btn-sm">Back to List</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-borderless">
+            <tr><th style="width:220px;">Interview Type</th><td>@Model.InterviewType</td></tr>
+            <tr><th>Date</th><td>@Model.InterviewDate.ToString("dd-MMM-yyyy")</td></tr>
+            <tr><th>Time</th><td>@Model.InterviewTime</td></tr>
+            <tr><th>Mode</th><td>@Model.InterviewMode</td></tr>
+            @if (!string.IsNullOrWhiteSpace(Model.MeetingLink))
+            {
+                <tr><th>Meeting Link</th><td><a href="@Model.MeetingLink" target="_blank">@Model.MeetingLink</a></td></tr>
+            }
+            <tr><th>Status</th><td><span class="badge bg-primary">@Model.Status</span></td></tr>
+            @if (Model.Status == "Completed")
+            {
+                <tr><th>Feedback</th><td>@Model.Feedback</td></tr>
+                <tr><th>Result</th><td>@(Model.IsSelected ? "Selected" : "Not Selected")</td></tr>
+            }
+        </table>
+
+        @if (Model.Status == "Scheduled")
+        {
+            <a asp-action="Confirm" asp-route-id="@Model.Id" class="btn btn-success">
+                <i class="fas fa-check me-1"></i>Confirm Attendance
+            </a>
+            <a asp-action="Reschedule" asp-route-id="@Model.Id" class="btn btn-warning">
+                <i class="fas fa-calendar-alt me-1"></i>Request Reschedule
+            </a>
+        }
+    </div>
+</div>

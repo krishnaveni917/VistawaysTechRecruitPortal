@@ -1,0 +1,53 @@
+@model VistaWaysTechRecruitPortal.Models.AssessmentQuestion
+
+@{
+    ViewData["Title"] = "Create Question";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning">
+        <h4>Create Assessment Question</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Question" class="form-label">Question</label>
+                <textarea asp-for="Question" class="form-control" rows="3" required></textarea>
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OptionA" class="form-label">Option A</label>
+                <input asp-for="OptionA" class="form-control" required />
+                <span asp-validation-for="OptionA" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OptionB" class="form-label">Option B</label>
+                <input asp-for="OptionB" class="form-control" required />
+                <span asp-validation-for="OptionB" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OptionC" class="form-label">Option C</label>
+                <input asp-for="OptionC" class="form-control" required />
+                <span asp-validation-for="OptionC" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OptionD" class="form-label">Option D</label>
+                <input asp-for="OptionD" class="form-control" required />
+                <span asp-validation-for="OptionD" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CorrectAnswer" class="form-label">Correct Answer (A, B, C, or D)</label>
+                <input asp-for="CorrectAnswer" class="form-control" required maxlength="1" />
+                <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Marks" class="form-label">Marks</label>
+                <input asp-for="Marks" class="form-control" type="number" min="1" required />
+                <span asp-validation-for="Marks" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

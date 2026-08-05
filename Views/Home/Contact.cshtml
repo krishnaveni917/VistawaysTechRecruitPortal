@@ -1,0 +1,233 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<main class="corporate-page">
+    <!-- Hero Section -->
+    <section class="corporate-hero">
+        <div class="hero-content">
+            <p class="eyebrow">Contact VistaWays Tech</p>
+            <h1>Get in Touch</h1>
+            <p>
+                Have questions about our recruitment services or need support with your application? 
+                Our team is here to help. Reach out through any of the channels below.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Information & Form -->
+    <section class="corporate-band">
+        <div class="contact-shell">
+            <aside class="contact-panel">
+                <div class="section-heading">
+                    <p class="eyebrow">Contact Information</p>
+                    <h2>Reach Us</h2>
+                </div>
+
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Headquarters</strong>
+                            <p>VistaWays Tech Tower, Level 12</p>
+                            <p>HITEC City, Hyderabad</p>
+                            <p>Telangana, 500081, India</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <strong>Email</strong>
+                            <p><a href="mailto:hr@vistawaystech.com">hr@vistawaystech.com</a></p>
+                            <p><a href="mailto:support@vistawaystech.com">support@vistawaystech.com</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Phone</strong>
+                            <p><a href="tel:+919876543210">+91 98765 43210</a></p>
+                            <p><a href="tel:+919876543211">+91 98765 43211</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div>
+                            <strong>Business Hours</strong>
+                            <p>Monday to Friday: 9:00 AM - 6:00 PM IST</p>
+                            <p>Saturday: 10:00 AM - 2:00 PM IST</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="LinkedIn">LinkedIn</a>
+                        <a href="#" class="social-icon" title="Twitter">Twitter</a>
+                        <a href="#" class="social-icon" title="Facebook">Facebook</a>
+                        <a href="#" class="social-icon" title="Instagram">Instagram</a>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="contact-panel">
+                <div class="section-heading">
+                    <p class="eyebrow">Send a Message</p>
+                    <h2>We'd Love to Hear From You</h2>
+                </div>
+
+                <form asp-controller="Home" asp-action="Contact" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="contactName">Full Name *</label>
+                            <input id="contactName" name="Name" class="form-control" type="text" required placeholder="John Doe" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="contactEmail">Email Address *</label>
+                            <input id="contactEmail" name="Email" class="form-control" type="email" required placeholder="john@example.com" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="contactPhone">Phone Number</label>
+                            <input id="contactPhone" name="Phone" class="form-control" type="tel" placeholder="+91 98765 43210" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="contactCompany">Company</label>
+                            <input id="contactCompany" name="Company" class="form-control" type="text" placeholder="Your Company Name" />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label" for="contactSubject">Subject *</label>
+                            <select id="contactSubject" name="Subject" class="form-select" required>
+                                <option value="">Select a topic</option>
+                                <option value="General Inquiry">General Inquiry</option>
+                                <option value="Candidate Registration">Candidate Registration Support</option>
+                                <option value="Assessment Support">Assessment Support</option>
+                                <option value="Interview Schedule">Interview Schedule</option>
+                                <option value="Document Verification">Document Verification</option>
+                                <option value="Offer Letter">Offer Letter Related</option>
+                                <option value="Partnership">Business Partnership</option>
+                                <option value="Careers">Careers at VistaWays Tech</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="contactMessage">Message *</label>
+                            <textarea id="contactMessage" name="Message" class="form-control" rows="5" required placeholder="How can we help you?"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-primary btn-lg" type="submit">Send Message</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </section>
+
+    <!-- Regional Offices -->
+    <section class="corporate-band corporate-band--muted">
+        <div class="section-heading">
+            <p class="eyebrow">Global Presence</p>
+            <h2>Our Regional Offices</h2>
+        </div>
+
+        <div class="offices-grid">
+            <div class="office-card">
+                <div class="office-flag">🇮🇳</div>
+                <h3>India</h3>
+                <p><strong>Hyderabad (HQ)</strong></p>
+                <p>HITEC City, Hyderabad</p>
+                <p>Telangana 500081</p>
+                <p><a href="tel:+919876543210">+91 98765 43210</a></p>
+            </div>
+            <div class="office-card">
+                <div class="office-flag">🇺🇸</div>
+                <h3>United States</h3>
+                <p><strong>San Francisco</strong></p>
+                <p>123 Market Street</p>
+                <p>San Francisco, CA 94105</p>
+                <p><a href="tel:+14155551234">+1 415-555-1234</a></p>
+            </div>
+            <div class="office-card">
+                <div class="office-flag">🇬🇧</div>
+                <h3>United Kingdom</h3>
+                <p><strong>London</strong></p>
+                <p>456 Tech Square</p>
+                <p>London EC2A 1NE</p>
+                <p><a href="tel:+442071234567">+44 20 7123 4567</a></p>
+            </div>
+            <div class="office-card">
+                <div class="office-flag">🇸🇬</div>
+                <h3>Singapore</strong></p>
+                <p>789 Business Park</p>
+                <p>Singapore 408933</p>
+                <p><a href="tel:+6567890123">+65 6789 0123</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="corporate-band">
+        <div class="section-heading">
+            <p class="eyebrow">Quick Answers</p>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3>How do I register as a candidate?</h3>
+                <p>Click the "Register as Candidate" button on our homepage, enter your email, verify with OTP, and complete your profile with educational and professional details.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What documents do I need for verification?</h3>
+                <p>You'll need your resume, educational certificates, identity proof, and any other relevant documents as specified during the application process.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How long does the recruitment process take?</h3>
+                <p>The timeline varies by position and company. Typically, the process takes 2-4 weeks from application to offer, depending on assessment and interview schedules.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I apply for multiple positions?</h3>
+                <p>Yes, you can apply for multiple positions that match your skills and experience. Each application is reviewed independently.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I reset my password?</h3>
+                <p>Click "Forgot Password" on the login page, enter your registered email, and follow the OTP verification process to reset your password.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Is my data secure?</h3>
+                <p>Absolutely. We use enterprise-grade security measures to protect your personal information and comply with global data protection regulations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="corporate-band corporate-band--muted">
+        <div class="section-heading">
+            <p class="eyebrow">Visit Us</p>
+            <h2>Find Our Office</h2>
+        </div>
+
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div class="map-icon">🗺️</div>
+                <p>Interactive Map</p>
+                <p class="map-address">VistaWays Tech Tower, HITEC City, Hyderabad</p>
+                <a href="https://maps.google.com/?q=VistaWays+Tech+Hyderabad" target="_blank" class="btn btn-outline-primary">Open in Google Maps</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-band">
+        <div>
+            <p class="eyebrow">Start Your Journey</p>
+            <h2>Ready to Take the Next Step?</h2>
+        </div>
+        <div class="cta-buttons">
+            <a class="btn btn-warning btn-lg" asp-controller="Otp" asp-action="RegisterEmailOtp">Register as Candidate</a>
+            <a class="btn btn-outline-light btn-lg" asp-controller="Home" asp-action="Services">Our Services</a>
+        </div>
+    </section>
+</main>

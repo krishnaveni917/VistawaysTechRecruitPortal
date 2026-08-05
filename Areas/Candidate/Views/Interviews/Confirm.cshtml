@@ -1,0 +1,28 @@
+@model VistaWaysTechRecruitPortal.Models.Interview
+@{
+    ViewData["Title"] = "Confirm Interview";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">Confirm Your Interview</h4>
+    </div>
+    <div class="card-body">
+        <p>Please confirm your attendance for the following interview:</p>
+        <table class="table table-borderless">
+            <tr><th style="width:200px;">Type</th><td>@Model.InterviewType</td></tr>
+            <tr><th>Date</th><td>@Model.InterviewDate.ToString("dd-MMM-yyyy")</td></tr>
+            <tr><th>Time</th><td>@Model.InterviewTime</td></tr>
+            <tr><th>Mode</th><td>@Model.InterviewMode</td></tr>
+        </table>
+
+        <form asp-action="Confirm" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check-circle me-1"></i>Yes, Confirm Attendance
+            </button>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+@model VistaWaysTechRecruitPortal.Models.Application
+
+@{
+    ViewData["Title"] = "Application Details";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Application Details</h2>
+    <a asp-action="Index" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Applications
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h3>@Model.Job?.JobTitle</h3>
+                <p class="text-muted mb-0">@Model.Job?.Department</p>
+            </div>
+            <div class="col-md-4 text-end">
+                @switch (Model.Status)
+                {
+                    case "Pending":
+                        <span class="badge bg-warning fs-6">Pending</span>
+                        break;
+                    case "Under Review":
+                        <span class="badge bg-info fs-6">Under Review</span>
+                        break;
+                    case "Shortlisted":
+                        <span class="badge bg-primary fs-6">Shortlisted</span>
+                        break;
+                    case "Selected":
+                        <span class="badge bg-success fs-6">Selected</span>
+                        break;
+                    case "Rejected":
+                        <span class="badge bg-danger fs-6">Rejected</span>
+                        break;
+                    case "Withdrawn":
+                        <span class="badge bg-secondary fs-6">Withdrawn</span>
+                        break;
+                    case "Offered":
+                        <span class="badge bg-success fs-6">Offered</span>
+                        break;
+                    default:
+                        <span class="badge bg-secondary fs-6">@Model.Status</span>
+                        break;
+                }
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-map-marker-alt me-2"></i>Location:</strong>
+                    <span class="ms-2">@Model.Job?.Location</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-briefcase me-2"></i>Employment Type:</strong>
+                    <span class="ms-2">@Model.Job?.EmploymentType</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-graduation-cap me-2"></i>Qualification Required:</strong>
+                    <span class="ms-2">@Model.Job?.Qualification</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-clock me-2"></i>Experience Required:</strong>
+                    <span class="ms-2">@Model.Job?.Experience</span>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Job?.Salary.HasValue == true)
+        {
+            <div class="mb-3">
+                <strong><i class="fas fa-rupee-sign me-2"></i>Salary Range:</strong>
+                <span class="ms-2">₹@Model.Job.Salary.Value.ToString("N0") per annum</span>
+            </div>
+        }
+
+        <hr class="my-4">
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-calendar me-2"></i>Applied Date:</strong>
+                    <span class="ms-2">@Model.AppliedDate.ToString("MMMM dd, yyyy")</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong><i class="fas fa-id-card me-2"></i>Candidate ID:</strong>
+                    <span class="ms-2">@Model.Candidate?.CandidateId</span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="mb-4">
+            <h5>Job Description</h5>
+            <p class="text-muted">@Model.Job?.Description</p>
+        </div>
+
+        <hr class="my-4">
+
+        @if (Model.Status == "Pending" || Model.Status == "Under Review")
+        {
+            <div class="d-flex gap-2">
+                <a asp-action="Withdraw" asp-route-id="@Model.Id" class="btn btn-danger">
+                    <i class="fas fa-times me-2"></i>Withdraw Application
+                </a>
+            </div>
+        }
+        else if (Model.Status == "Withdrawn")
+        {
+            <div class="alert alert-secondary">
+                <i class="fas fa-info-circle me-2"></i>This application has been withdrawn.
+            </div>
+        }
+        else if (Model.Status == "Selected" || Model.Status == "Offered")
+        {
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>Congratulations! Your application has been @Model.Status.ToLower().
+            </div>
+        }
+        else if (Model.Status == "Rejected")
+        {
+            <div class="alert alert-danger">
+                <i class="fas fa-times-circle me-2"></i>Your application was not selected for this position.
+            </div>
+        }
+
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Applications
+        </a>
+    </div>
+</div>

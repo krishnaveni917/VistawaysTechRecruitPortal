@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Careers";
+}
+
+<main class="careers-home">
+    <section class="career-hero career-hero--compact">
+        <div class="career-hero__content">
+            <p class="eyebrow">Careers at VistaWays</p>
+            <h1>Find the role that matches your ambition.</h1>
+            <p>
+                Explore early-career and experienced opportunities across software, cloud,
+                data, support, and delivery teams.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-primary btn-lg" asp-controller="Account" asp-action="RegisterEmail">Apply Now</a>
+                <a class="btn btn-outline-light btn-lg" asp-controller="Account" asp-action="Login">Track Application</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-band">
+        <div class="section-heading">
+            <p class="eyebrow">Candidate paths</p>
+            <h2>Wherever you are in your career</h2>
+        </div>
+        <div class="career-grid career-grid--three">
+            <article class="career-card">
+                <span>Freshers</span>
+                <h3>Launch your career</h3>
+                <p>Start with assessments, guided interviews, and structured onboarding.</p>
+            </article>
+            <article class="career-card">
+                <span>Experienced</span>
+                <h3>Bring your expertise</h3>
+                <p>Join delivery teams that value practical skill and ownership.</p>
+            </article>
+            <article class="career-card">
+                <span>Internships</span>
+                <h3>Learn by building</h3>
+                <p>Work on focused assignments and develop production-ready habits.</p>
+            </article>
+        </div>
+    </section>
+</main>

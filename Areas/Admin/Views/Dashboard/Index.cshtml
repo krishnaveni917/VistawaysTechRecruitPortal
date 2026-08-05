@@ -1,0 +1,148 @@
+@model VistaWaysTechRecruitPortal.Areas.Admin.Controllers.AdminDashboardViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-3">Admin Dashboard</h2>
+        <p class="text-muted">Overview of recruitment activities and candidate statistics</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-6 col-lg-3 mb-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted mb-1">Total Candidates</h6>
+                    <h3 class="mb-0">@Model.TotalCandidates</h3>
+                    <small class="text-success">Registered users</small>
+                </div>
+                <div class="icon blue">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted mb-1">Pending Review</h6>
+                    <h3 class="mb-0">@Model.PendingCandidates</h3>
+                    <small class="text-warning">Awaiting review</small>
+                </div>
+                <div class="icon orange">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted mb-1">Shortlisted</h6>
+                    <h3 class="mb-0">@Model.ShortlistedCandidates</h3>
+                    <small class="text-info">Qualified candidates</small>
+                </div>
+                <div class="icon purple">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted mb-1">Hired</h6>
+                    <h3 class="mb-0">@Model.HiredCandidates</h3>
+                    <small class="text-success">Successful hires</small>
+                </div>
+                <div class="icon green">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Candidates -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Registrations</h5>
+                <a asp-area="Admin" asp-controller="Candidates" asp-action="Index" class="btn btn-sm btn-outline-primary">
+                    View All
+                </a>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.RecentCandidates.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Candidate ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Qualification</th>
+                                    <th>Status</th>
+                                    <th>Registration Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var candidate in Model.RecentCandidates)
+                                {
+                                    <tr>
+                                        <td><strong>@candidate.CandidateId</strong></td>
+                                        <td>@candidate.FirstName @candidate.LastName</td>
+                                        <td>@candidate.Email</td>
+                                        <td>@candidate.Qualification</td>
+                                        <td>
+                                            <span class="badge bg-@(GetStatusBadgeClass(candidate.RecruitmentStatus))">
+                                                @candidate.RecruitmentStatus
+                                            </span>
+                                        </td>
+                                        <td>@candidate.RegistrationDate.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-users text-muted" style="font-size: 48px;"></i>
+                        <p class="text-muted mt-3">No candidates registered yet</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Registered" => "primary",
+            "ProfileUnderReview" => "warning",
+            "Shortlisted" => "info",
+            "InterviewScheduled" => "secondary",
+            "InterviewCompleted" => "dark",
+            "OfferExtended" => "success",
+            "OfferAccepted" => "success",
+            "OfferRejected" => "danger",
+            "Rejected" => "danger",
+            _ => "secondary"
+        };
+    }
+}

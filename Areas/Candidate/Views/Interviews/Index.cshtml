@@ -1,0 +1,81 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.Interview>
+@{
+    ViewData["Title"] = "My Interviews";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Interviews</h2>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="card shadow">
+    <div class="card-body">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Mode</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var interview in Model)
+                        {
+                            <tr>
+                                <td>@interview.InterviewType</td>
+                                <td>@interview.InterviewDate.ToString("dd-MMM-yyyy")</td>
+                                <td>@interview.InterviewTime</td>
+                                <td>@interview.InterviewMode</td>
+                                <td>
+                                    @{
+                                        var badge = interview.Status switch
+                                        {
+                                            "Scheduled" => "bg-warning text-dark",
+                                            "Confirmed" => "bg-primary",
+                                            "Completed" => "bg-success",
+                                            "Reschedule Requested" => "bg-info text-dark",
+                                            "Cancelled" => "bg-danger",
+                                            _ => "bg-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badge">@interview.Status</span>
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@interview.Id" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    @if (interview.Status == "Scheduled")
+                                    {
+                                        <a asp-action="Confirm" asp-route-id="@interview.Id" class="btn btn-sm btn-success">
+                                            <i class="fas fa-check"></i> Confirm
+                                        </a>
+                                        <a asp-action="Reschedule" asp-route-id="@interview.Id" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-calendar-alt"></i> Reschedule
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info mb-0">
+                <i class="fas fa-info-circle me-2"></i>You have no interviews scheduled yet.
+            </div>
+        }
+    </div>
+</div>

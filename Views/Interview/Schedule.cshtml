@@ -1,0 +1,63 @@
+﻿@model VistaWaysTechRecruitPortal.Models.Interview
+
+<h2>Schedule Interview</h2>
+
+<form asp-action="Schedule" method="post">
+
+    <input type="hidden" asp-for="CandidateId" value="@ViewBag.CandidateId" />
+
+    <div class="mb-3">
+        <label>Interview Type</label>
+
+        <select asp-for="InterviewType" class="form-control">
+            <option>Technical</option>
+            <option>HR</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Date</label>
+
+        <input asp-for="InterviewDate"
+               type="date"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Time</label>
+
+        <input asp-for="InterviewTime"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Mode</label>
+
+        <select asp-for="InterviewMode"
+                class="form-control">
+
+            <option>Online</option>
+            <option>Offline</option>
+
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Meeting Link</label>
+
+        <input asp-for="MeetingLink"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Interviewer</label>
+
+        <input asp-for="Interviewer"
+               class="form-control" />
+    </div>
+
+    <button class="btn btn-success">
+        Schedule Interview
+    </button>
+
+</form>

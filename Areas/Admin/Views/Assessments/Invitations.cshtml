@@ -1,0 +1,59 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.AssessmentInvitation>
+
+@{
+    ViewData["Title"] = "Assessment Invitations";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header d-flex justify-content-between align-items-center bg-warning">
+        <h4>Assessment Invitations</h4>
+        <a asp-action="CreateInvitation" class="btn btn-primary btn-sm">Send Invitation</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Candidate ID</th>
+                    <th>Token</th>
+                    <th>Sent Date</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CandidateId</td>
+                        <td><code>@item.AssessmentToken.Substring(0, 8)...</code></td>
+                        <td>@item.SentDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.ExpiryDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            @if (item.TerminatedForViolation)
+                            {
+                                <span class="badge bg-dark" title="@item.ViolationReason">Terminated</span>
+                            }
+                            else if (item.IsCompleted)
+                            {
+                                <span class="badge bg-success">Completed</span>
+                            }
+                            else if (item.ExpiryDate < DateTime.Now)
+                            {
+                                <span class="badge bg-danger">Expired</span>
+                            }
+                            else if (item.StartedOn != null)
+                            {
+                                <span class="badge bg-info text-dark">In Progress</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

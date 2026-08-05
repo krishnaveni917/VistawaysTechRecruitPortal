@@ -1,0 +1,103 @@
+﻿@model VistaWaysTechRecruitPortal.Models.Job
+
+@{
+    ViewData["Title"] = "Create Job";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4>Create New Job</h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <form asp-action="Create" asp-area="Admin" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="JobTitle" class="form-label fw-semibold">Job Title</label>
+                        <input type="text" id="JobTitle" name="JobTitle"  class="form-control">
+                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Department" class="form-label fw-semibold">Department</label>
+                        <input type="text" id="Department" name="Department" class="form-control" required />
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Location" class="form-label fw-semibold">Location</label>
+                        <input type="text" id="Location" name="Location" class="form-control" required />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="EmploymentType" class="form-label fw-semibold">Employment Type</label>
+                        <select asp-for="EmploymentType" class="form-select">
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Experience" class="form-label fw-semibold">Experience Required</label>
+                        <input type="text" id="Experience" name="Experience" class="form-control" placeholder="e.g., 2-3 years" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Qualification" class="form-label fw-semibold">Qualification Required</label>
+                        <input type="text" id="Qualification" name="Qualification" class="form-control" placeholder="e.g., B.Tech, MCA" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Salary" class="form-label fw-semibold">Salary Range</label>
+                <input type="number" id="Salary" name="Salary" class="form-control" step="1000" placeholder="e.g., 500000" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-semibold">Job Description</label>
+                <textarea asp-for="Description" class="form-control" rows="6" required></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
+                <label asp-for="IsActive" class="form-check-label">Active (Visible to candidates)</label>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-2"></i>Save Job
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

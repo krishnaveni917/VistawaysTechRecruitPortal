@@ -1,0 +1,36 @@
+@model VistaWaysTechRecruitPortal.Models.Interview
+@{
+    ViewData["Title"] = "Reschedule Interview";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning">
+        <h4 class="mb-0">Request Interview Reschedule</h4>
+    </div>
+    <div class="card-body">
+        <p>Current interview: <strong>@Model.InterviewDate.ToString("dd-MMM-yyyy")</strong> at <strong>@Model.InterviewTime</strong> (@Model.InterviewMode)</p>
+
+        <form asp-action="Reschedule" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="mb-3">
+                <label class="form-label">Preferred Date</label>
+                <input type="date" name="preferredDate" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Preferred Time</label>
+                <input type="time" name="preferredTime" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Reason</label>
+                <textarea name="reason" class="form-control" rows="3" placeholder="Let us know why you need to reschedule..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-warning">
+                <i class="fas fa-paper-plane me-1"></i>Submit Reschedule Request
+            </button>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

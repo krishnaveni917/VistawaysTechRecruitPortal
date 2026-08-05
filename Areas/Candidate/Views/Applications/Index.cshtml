@@ -1,0 +1,95 @@
+@model IEnumerable<VistaWaysTechRecruitPortal.Models.Application>
+
+@{
+    ViewData["Title"] = "My Applications";
+    Layout = "~/Areas/Candidate/Views/Shared/_CandidateLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Applications</h2>
+    <a asp-controller="Jobs" asp-action="Index" class="btn btn-outline-primary">
+        <i class="fas fa-search me-2"></i>Browse Jobs
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Department</th>
+                            <th>Location</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var application in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@application.Job?.JobTitle</strong>
+                                </td>
+                                <td>@application.Job?.Department</td>
+                                <td>@application.Job?.Location</td>
+                                <td>@application.AppliedDate.ToString("MMMM dd, yyyy")</td>
+                                <td>
+                                    @switch (application.Status)
+                                    {
+                                        case "Pending":
+                                            <span class="badge bg-warning">Pending</span>
+                                            break;
+                                        case "Under Review":
+                                            <span class="badge bg-info">Under Review</span>
+                                            break;
+                                        case "Shortlisted":
+                                            <span class="badge bg-primary">Shortlisted</span>
+                                            break;
+                                        case "Selected":
+                                            <span class="badge bg-success">Selected</span>
+                                            break;
+                                        case "Rejected":
+                                            <span class="badge bg-danger">Rejected</span>
+                                            break;
+                                        case "Withdrawn":
+                                            <span class="badge bg-secondary">Withdrawn</span>
+                                            break;
+                                        case "Offered":
+                                            <span class="badge bg-success">Offered</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary">@application.Status</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@application.Id" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    @if (application.Status == "Pending" || application.Status == "Under Review")
+                                    {
+                                        <a asp-action="Withdraw" asp-route-id="@application.Id" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>You haven't applied to any jobs yet. 
+        <a asp-controller="Jobs" asp-action="Index" class="alert-link">Browse available jobs</a> and start applying!
+    </div>
+}

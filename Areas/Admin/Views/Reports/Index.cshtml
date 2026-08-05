@@ -1,0 +1,68 @@
+﻿@model VistaWaysTechRecruitPortal.Areas.Admin.Controllers.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-secondary text-white">
+        <h4>Reports Dashboard</h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5>Total Candidates</h5>
+                    <h3>@Model.TotalCandidates</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="icon green">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h5>Total Jobs</h5>
+                    <h3>@Model.TotalJobs</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="icon orange">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h5>Total Applications</h5>
+                    <h3>@Model.TotalApplications</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="icon purple">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h5>Total Interviews</h5>
+                    <h3>@Model.TotalInterviews</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Quick Reports</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-3">
+                            <a asp-action="CandidateReport" class="btn btn-primary">Candidate Report</a>
+                            <a asp-action="RecruitmentReport" class="btn btn-success">Recruitment Report</a>
+                            <a asp-action="AssessmentReport" class="btn btn-info">Assessment Report</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

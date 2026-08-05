@@ -1,0 +1,66 @@
+﻿@model VistaWaysTechRecruitPortal.Models.Candidate
+
+@{
+    ViewData["Title"] = "Candidate Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+
+        <h3>@Model.FirstName @Model.LastName</h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table">
+
+            <tr>
+                <th>Candidate ID</th>
+                <td>@Model.CandidateId</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>@Model.Email</td>
+            </tr>
+
+            <tr>
+                <th>Mobile</th>
+                <td>@Model.MobileNumber</td>
+            </tr>
+
+            <tr>
+                <th>Qualification</th>
+                <td>@Model.Qualification</td>
+            </tr>
+
+            <tr>
+                <th>Specialization</th>
+                <td>@Model.Specialization</td>
+            </tr>
+
+            <tr>
+                <th>Experience</th>
+                <td>@Model.Experience Years</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td>@Model.RecruitmentStatus</td>
+            </tr>
+
+        </table>
+
+        <a href="/Admin/Candidates/Index"
+           class="btn btn-secondary">
+
+            Back
+
+        </a>
+
+    </div>
+
+</div>

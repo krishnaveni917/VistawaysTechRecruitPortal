@@ -1,0 +1,38 @@
+@model VistaWaysTechRecruitPortal.Models.AssessmentQuestion
+
+@{
+    ViewData["Title"] = "Delete Question";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow">
+    <div class="card-header bg-danger text-white">
+        <h4>Delete Assessment Question</h4>
+    </div>
+    <div class="card-body">
+        <h3>Are you sure you want to delete this question?</h3>
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3">Question</dt>
+                <dd class="col-sm-9">@Model.Question</dd>
+                <dt class="col-sm-3">Option A</dt>
+                <dd class="col-sm-9">@Model.OptionA</dd>
+                <dt class="col-sm-3">Option B</dt>
+                <dd class="col-sm-9">@Model.OptionB</dd>
+                <dt class="col-sm-3">Option C</dt>
+                <dd class="col-sm-9">@Model.OptionC</dd>
+                <dt class="col-sm-3">Option D</dt>
+                <dd class="col-sm-9">@Model.OptionD</dd>
+                <dt class="col-sm-3">Correct Answer</dt>
+                <dd class="col-sm-9">@Model.CorrectAnswer</dd>
+                <dt class="col-sm-3">Marks</dt>
+                <dd class="col-sm-9">@Model.Marks</dd>
+            </dl>
+        </div>
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

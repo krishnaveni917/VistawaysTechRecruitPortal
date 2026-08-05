@@ -1,0 +1,56 @@
+﻿@model IEnumerable<VistaWaysTechRecruitPortal.Models.CandidateDocument>
+
+<h2>Candidate Documents</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Candidate ID</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.CandidateId</td>
+
+                <td>
+
+                    @if (item.IsVerified)
+                    {
+                        <span class="badge bg-success">Verified</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">Pending</span>
+                    }
+
+                </td>
+
+                <td>
+
+                    @if (!item.IsVerified)
+                    {
+                        <a asp-action="VerifyDocument"
+                           asp-route-id="@item.Id"
+                           class="btn btn-success btn-sm">
+
+                            Verify
+
+                        </a>
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

@@ -1,0 +1,180 @@
+﻿@model List<VistaWaysTechRecruitPortal.ViewModels.TakeAssessmentViewModel>
+
+@{
+    ViewData["Title"] = "Online Assessment";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body { background: #f0f2f5; }
+        #examLockOverlay {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.92);
+            color: #fff; z-index: 2000; display: flex; align-items: center;
+            justify-content: center; text-align: center; padding: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The exam is hidden behind this overlay until the candidate performs the
+         gesture (click) required by browsers to request full-screen mode. This
+         also marks the true start of the proctored session on the client side. -->
+    <div id="examLockOverlay">
+        <div>
+            <h2>Ready to begin?</h2>
+            <p>The assessment will open in full-screen mode.<br />
+               Switching tabs, minimizing, or exiting full screen will immediately end your attempt.</p>
+            <button id="enterFullscreenBtn" class="btn btn-lg btn-success">Enter Full Screen &amp; Begin</button>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">VistaWays Tech Online Assessment</h3>
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-warning d-flex justify-content-between align-items-center">
+                    <span><strong>Time Remaining:</strong> <span id="timer">--:--</span></span>
+                    <span class="text-muted small">Do not switch tabs or exit full screen</span>
+                </div>
+
+                <form asp-action="SubmitAssessment" method="post" id="assessmentForm">
+                    <input type="hidden" name="token" value="@ViewBag.AssessmentToken" />
+                    <input type="hidden" name="terminatedForViolation" id="terminatedForViolation" value="false" />
+                    <input type="hidden" name="violationReason" id="violationReason" value="" />
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5>Question @(i + 1)</h5>
+                                <p>@Model[i].Question</p>
+
+                                <input type="hidden" asp-for="@Model[i].QuestionId" />
+
+                                <div>
+                                    <input type="radio" asp-for="@Model[i].SelectedAnswer" value="A" />
+                                    A. @Model[i].OptionA
+                                </div>
+                                <div>
+                                    <input type="radio" asp-for="@Model[i].SelectedAnswer" value="B" />
+                                    B. @Model[i].OptionB
+                                </div>
+                                <div>
+                                    <input type="radio" asp-for="@Model[i].SelectedAnswer" value="C" />
+                                    C. @Model[i].OptionC
+                                </div>
+                                <div>
+                                    <input type="radio" asp-for="@Model[i].SelectedAnswer" value="D" />
+                                    D. @Model[i].OptionD
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <button class="btn btn-success" id="submitBtn">Submit Assessment</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Server-authoritative remaining time - a page refresh does not reset the clock.
+        let time = @ViewBag.RemainingSeconds;
+        let examStarted = false;
+        let violationTriggered = false;
+        let timerInterval = null;
+
+        const overlay = document.getElementById('examLockOverlay');
+        const enterBtn = document.getElementById('enterFullscreenBtn');
+        const form = document.getElementById('assessmentForm');
+
+        function renderTimer() {
+            const minutes = Math.floor(Math.max(time, 0) / 60);
+            const seconds = Math.max(time, 0) % 60;
+            document.getElementById('timer').innerHTML = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }
+        renderTimer();
+
+        function startTimer() {
+            timerInterval = setInterval(function () {
+                time--;
+                renderTimer();
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    form.submit();
+                }
+            }, 1000);
+        }
+
+        function terminateForViolation(reason) {
+            if (violationTriggered) return;
+            violationTriggered = true;
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('terminatedForViolation').value = 'true';
+            document.getElementById('violationReason').value = reason;
+            form.submit();
+        }
+
+        enterBtn.addEventListener('click', function () {
+            const el = document.documentElement;
+            const request = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+
+            function proceed() {
+                overlay.style.display = 'none';
+                // Give full-screen transition a brief moment to settle before arming
+                // violation detection, to avoid a false positive from the transition itself.
+                setTimeout(function () {
+                    examStarted = true;
+                }, 800);
+                startTimer();
+            }
+
+            if (request) {
+                Promise.resolve(request.call(el)).then(proceed).catch(proceed);
+            } else {
+                // Full screen not supported by this browser - proceed with timing only.
+                proceed();
+            }
+        });
+
+        document.addEventListener('visibilitychange', function () {
+            if (examStarted && document.hidden) {
+                terminateForViolation('Candidate switched tabs or minimized the window.');
+            }
+        });
+
+        window.addEventListener('blur', function () {
+            if (!examStarted || violationTriggered) return;
+            setTimeout(function () {
+                if (!document.hasFocus() && !violationTriggered) {
+                    terminateForViolation('Candidate navigated away from the assessment window.');
+                }
+            }, 250);
+        });
+
+        document.addEventListener('fullscreenchange', function () {
+            if (examStarted && !document.fullscreenElement) {
+                terminateForViolation('Candidate exited full-screen mode.');
+            }
+        });
+        document.addEventListener('webkitfullscreenchange', function () {
+            if (examStarted && !document.webkitFullscreenElement) {
+                terminateForViolation('Candidate exited full-screen mode.');
+            }
+        });
+    </script>
+</body>
+</html>
